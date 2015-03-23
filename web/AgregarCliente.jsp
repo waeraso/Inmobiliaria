@@ -37,19 +37,7 @@
                     <tr>
                         <td>Email:*</td>
                         <td><input type="email" name="txt_email" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Confirmar Email:*</td>
-                        <td><input type="email" name="txt_cemail" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Contraseña:*</td>
-                        <td><input type="password" name="txt_contraseña" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Confirma Contraseña:*</td>
-                        <td><input type="password" name="txt_ccontraseña" value="" /></td>
-                    </tr>
+                    </tr>                    
                     <tr>
                         <td>Telefono:*</td>
                         <td><input type="tel" name="txt_telefono" value="" /></td>
