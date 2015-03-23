@@ -13,15 +13,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body>
-        <h1>Hello World!</h1>
-        <form align="center" id="formulario" action="enviado.php" method="post" name="Administrar Departamento">
-            <fieldset>
-                <legend>Administrar Departamento</legend>
-                <div><label>Nombre:*</label>
-                    <input id="nombre_departamento" name="nombre_departamento" type="text" /></div>
-                <div align="center"><input id="Aceptar" name="enviar" type="submit" value="Buscar" /></div>
-            </fieldset>
+    <body>        
+        <form align="center" id="formulario" action="" method="post">                       
+            <div align="center">
+             <h1>Buscar Departamentos</h1>
+                <table width="50%" border="0" align="center" cellpadding="7" cellspacing="0">
+                    <tr>
+                        <td>Nombre: </td>
+                        <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
+                    </tr>                                                                              
+                    <tr>
+                        <td><input type="submit" value="Buscar" /></td>
+                        <td><input type="reset" value="Cancelar" /></td>
+                    </tr>                    
+                </table>
+             </div>
         </form>     
         <jsp:include page="Fooder.html" flush="true" />
         
