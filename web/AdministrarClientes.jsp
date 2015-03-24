@@ -1,7 +1,7 @@
 <%-- 
     Document   : AdministrarClientes
     Created on : 23/03/2015, 04:11:07 PM
-    Author     : WILMER
+    Author     : SoftTeam
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
