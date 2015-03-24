@@ -5,9 +5,11 @@
  */
 package com.inmobiliaria.controlador;
 
+import com.inmobiliaria.mundo.Cliente;
 import com.inmobiliaria.mundo.Inmobiliaria;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,10 +41,10 @@ public class ControladorCliente extends HttpServlet {
             Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");                           
             session.setAttribute("inmobiliaria", inmobiliaria);
             
-            String operacionAgregar =  request.getParameter("btn_aceptar");
+            String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
             
-            if (operacionAgregar.equals("Aceptar"))
+            if (operacion.equals("Agregar"))
             {
             try
             {
@@ -66,6 +68,44 @@ public class ControladorCliente extends HttpServlet {
                out.println(e.getMessage());
             }
         }
+            
+        //buscar clientes          
+        else if (operacion.equals("Buscar"))
+        {
+            Cliente cliente1 = new Cliente(1,108,"juan","c","juan@h.com","121");
+            Cliente cliente2 = new Cliente(2,1085,"pepe","p","p@h.com","777");
+            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+            clientes.add(cliente1);
+            clientes.add(cliente2);    
+            
+           request.setAttribute("clientes", clientes); //declarar variable de sesion
+           request.getRequestDispatcher("AdministrarClientes.jsp").forward(request, response);
+           
+                    /*out.println("<table border='1'>");
+                        out.println("<tr>");;                       
+                        out.println("<td>IdCliente</td>");
+                        out.println("<td>Nombre</td>");                        
+                        out.println("<td>Apellidos</td>");
+                        out.println("<td>Cedula</td>");                        
+                        out.println("<td>Email</td>");
+                        out.println("<td>Telefono</td>");                        
+                    out.println("</tr>");
+                    
+                    for(Cliente c : clientes){
+                        out.println("<tr>");
+                            out.println("<td>"+c.getIdCliente()+"</td>");
+                            out.println("<td>"+c.getNombre()+"</td>");
+                            out.println("<td>"+c.getApellidos()+"</td>");
+                            out.println("<td>"+c.getCedula()+"</td>");
+                            out.println("<td>"+c.getEmail()+"</td>");
+                            out.println("<td>"+c.getTelefono()+"</td>");                            
+                        out.println("</tr>");
+                    }
+                out.println("</table>"); */ 
+         
+        }
+            
+        
             
         }
     }

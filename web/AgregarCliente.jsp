@@ -52,7 +52,7 @@
                         <td><input name="txt_telefono" type="tel" autofocus="autofocus" required="required" value="" maxlength="10" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Aceptar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
                     </tr>
                   </tbody>
             </table>
