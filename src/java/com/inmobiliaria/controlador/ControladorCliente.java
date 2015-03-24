@@ -40,6 +40,8 @@ public class ControladorCliente extends HttpServlet {
             session.setAttribute("inmobiliaria", inmobiliaria);
             
             String operacionAgregar =  request.getParameter("btn_aceptar");
+            String mensaje = "";
+            
             if (operacionAgregar.equals("Aceptar"))
             {
             try
@@ -53,11 +55,11 @@ public class ControladorCliente extends HttpServlet {
                 
                 inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
 
-                //mensaje = "El vehículo con placa: " + imagen + " fue registrada con éxito";
+                mensaje = "El Cliente fue registrada con éxito";
 
-                //session.setAttribute("mensaje", mensaje);
+                session.setAttribute("mensaje", mensaje);
 
-                //response.sendRedirect("./respuesta.jsp");
+                response.sendRedirect("./Mensajes.jsp");
             }
             catch( Exception e )
             {
