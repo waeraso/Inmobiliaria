@@ -32,33 +32,31 @@
                 
                 <tbody>
                     <tr>
-                        <td>Cedula de Ciudadania:*</td>
-                        <td><input type="text" name="txt_cedula" value="" /></td>
+                        <td>Cedula de Ciudadania:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_cedula" type="text" autofocus="autofocus" required="required" value="" maxlength="10" /></td>
                     </tr>
                     <tr>
-                        <td>Nombres:*</td>
-                        <td><input type="text" name="txt_nombre" value="" /></td>
+                        <td>Nombres:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" value="" /></td>
                     </tr>
                     <tr>
-                        <td>Apellidos:*</td>
-                        <td><input type="text" name="txt_apellidos" value="" /></td>
+                        <td>Apellidos:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_apellidos" type="text" autofocus="autofocus" required="required" value="" /></td>
                     </tr>
                     <tr>
-                        <td>Email:*</td>
-                        <td><input type="email" name="txt_email" value="" /></td>
+                        <td>Email:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_email" type="email" autofocus="autofocus" required="required" value="" /></td>
                     </tr>                    
                     <tr>
-                        <td>Telefono:*</td>
-                        <td><input type="tel" name="txt_telefono" value="" /></td>
+                        <td>Telefono:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_telefono" type="tel" autofocus="autofocus" required="required" value="" maxlength="10" /></td>
                     </tr>
                     <tr>
-                        <td align="right"><input type="submit" value="Aceptar" name="btn_aceptar" /></td>
-                        <td><input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Aceptar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
                     </tr>
-                
-                </tbody>
+                  </tbody>
             </table>
-                <h4>*campos requeridos</h4>
+                <h4><span style="color: #F00">*campos requeridos</span></h4>
             </div>
         </form>
         <jsp:include page="Fooder.html" flush="true" />

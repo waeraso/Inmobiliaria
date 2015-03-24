@@ -16,14 +16,13 @@
         <form > 
              <div align="center">
              <h1>Buscar Ciudades</h1>
-                <table width="50%" border="0" align="center" cellpadding="7" cellspacing="0">
+                <table border="0" align="center">
                     <tr>
                         <td>Nombre: </td>
                         <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
                     </tr>                                                                              
                     <tr>
-                        <td><input type="submit" value="Buscar" /></td>
-                        <td><input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" />                          <input type="reset" value="Cancelar" /></td>
                     </tr>                    
                 </table>
              </div>

@@ -16,16 +16,17 @@
          <form > 
              <div align="center">
              <h1>Agregar Departamento</h1>
-                <table width="50%" border="0" align="center" cellpadding="7" cellspacing="0">
+                <table width="20%" border="0" align="center" cellpadding="3" cellspacing="0">
                     <tr>
-                        <td>Nombre: </td>
-                        <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
+                        <td>Nombre:<span style="color: #F00">*</span></td>
+                        <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" size="20" maxlength="30"></td>
                     </tr>                                                            
                     <tr>
-                        <td><input type="submit" value="Aceptar" /></td>
-                        <td><input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Aceptar" />                          <input type="reset" value="Cancelar" /></td>
                     </tr>
                 </table>
+                <p><span style="color: #F00">*campos requeridos</span>
+                </p>
              </div>
         </form>
         <jsp:include page="Fooder.html" flush="true" />

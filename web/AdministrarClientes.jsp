@@ -34,8 +34,7 @@
                         <td><input type="text" name="txt_apellidos" value="" /></td>
                     </tr>
                     <tr>
-                        <td align="right"><input type="submit" value="Aceptar" name="btn_aceptar" /></td>
-                        <td><input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Aceptar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
                     </tr>
                 
                 </tbody>
