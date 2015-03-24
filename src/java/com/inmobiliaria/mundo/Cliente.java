@@ -33,7 +33,7 @@ public class Cliente {
         email = pEmail;
         telefono = pTelefono;                 
     }    
-    
+
     public int getIdCliente() {
         return idCliente;
     }

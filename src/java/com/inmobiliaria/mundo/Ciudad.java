@@ -17,10 +17,10 @@ public class Ciudad {
     //nombre de ciudad
     String nombre;
     //objeto de departamento con los datos del departamento al que pertenece
-    Departamento departamento;
+    String departamento;
     
     //constructor clase ciudad para inicializar datos de una ciudad
-    public Ciudad(int pIdCiudad, String pNombre, Departamento pDep){
+    public Ciudad(int pIdCiudad, String pNombre, String pDep){
         idCiudad = pIdCiudad;
         nombre = pNombre;
         departamento = pDep;
@@ -42,12 +42,12 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public Departamento getDepartamento() {
+    public String getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(Departamento departamento) {
+    public void setDepartamento(String departamento) {
         this.departamento = departamento;
-    }     
+    }   
     
 }

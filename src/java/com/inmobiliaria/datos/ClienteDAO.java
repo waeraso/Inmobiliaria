@@ -14,23 +14,26 @@ import java.util.ArrayList;
 
 /**
  *
- * @author WILMER
+ * @author SoftTeam
  */
 public class ClienteDAO {
 
 // -----------------------------------------------------------------
 // Atributos
 // -----------------------------------------------------------------
+    /**
+     * Atributo que conecta con la clase fachada.
+     */
     private FachadaDB fachada;
 
-	// -----------------------------------------------------------------
+    // -----------------------------------------------------------------
     // Constructor
     // ----------------------------------------------------------------
     public ClienteDAO() {
         fachada = new FachadaDB();
     }
 
-	// -----------------------------------------------------------------
+    // -----------------------------------------------------------------
     // Métodos
     // -----------------------------------------------------------------
     /**
@@ -80,16 +83,89 @@ public class ClienteDAO {
             Statement instruccion = conection.createStatement();
             ResultSet tabla = instruccion.executeQuery(sql);
             while (tabla.next()) {
-                int pId=0;
+                int pId = 0;
                 //int cedula = tabla.getString("cedula");
-                int cedula = Integer.parseInt( tabla.getString("cedula"));
+                int cedula = Integer.parseInt(tabla.getString("cedula"));
                 String nombre = tabla.getString("nombre");
                 String apellidos = tabla.getString("apellido");
                 String email = tabla.getString("email");
-                String telefono = tabla.getString("telefono");                
+                String telefono = tabla.getString("telefono");
                 Cliente cliente = new Cliente(pId, cedula, nombre, apellidos, email, telefono);
                 clientes.add(cliente);
-            }        }
+            }
+        }
         return clientes;
     }
+
+    /**
+     * consulta por cedula, nombres o apellidos el cliente en la base de datos.
+     *
+     * @param pCedula, pNombres o pApellidos
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public Cliente buscarCliente(String pCedula, String pNombres, String pApellidos) throws SQLException, ClassNotFoundException {
+        Cliente cliente = null;
+        String sql = "SELECT cedula, nombres, apellidos, email, telefono FROM cliente WHERE cedula='" + pCedula + "'nombres='" + pNombres + "'apellidos='" + pApellidos + "'";
+        Connection miConexion = fachada.conectar();
+        if (miConexion != null) {
+            Statement instruccion = miConexion.createStatement();
+            ResultSet tabla = instruccion.executeQuery(sql);
+            while (tabla.next()) {
+                cliente = new Cliente(Integer.parseInt(tabla.getString("idCliente")),Integer.parseInt(tabla.getString("cedula")), tabla.getString("nombre"), tabla.getString("apellido"), tabla.getString("email"), tabla.getString("telefono"));
+            }
+        }
+        fachada.desconectar(miConexion);
+        return cliente;
+    }
+
+    /**
+     * eliminar un cliente de la base de datos
+     *
+     * @param pCliente
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public int eliminarCliente(Cliente pCliente) throws ClassNotFoundException, SQLException {
+        int resultado = -1;
+        String sql = "DELETE FROM cliente WHERE cedula='" + pCliente.getCedula() + "'";
+        Connection miConexion = fachada.conectar();
+        if (miConexion != null) {
+            Statement instruccion = (Statement) miConexion.createStatement();
+            resultado = ((java.sql.Statement) instruccion).executeUpdate(sql);
+            miConexion.close();
+        }
+        fachada.desconectar(miConexion);
+        return resultado;
+    }
+
+    /**
+     * modificar un cliente en la base de datos
+     *
+     * @param pCedula
+     * @param pCliente
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public int modificarCliente(String pCedula, Cliente pCliente) throws ClassNotFoundException, SQLException {
+        int resultado = -1;
+        String sql = "UPDATE cliente SET cedula='" + pCliente.getCedula() + "', nombres='" + pCliente.getNombre() + "', apellidos='" + pCliente.getApellidos() + "', email='" + pCliente.getEmail() + "', telefono='" + pCliente.getTelefono() + "'"
+                + "WHERE cedula='" + pCedula + "'";
+        Connection miConexion = fachada.conectar();
+        if (miConexion != null) {
+            Statement instruccion = (Statement) miConexion.createStatement();
+            resultado = ((java.sql.Statement) instruccion).executeUpdate(sql);
+            miConexion.close();
+        }
+        fachada.desconectar(miConexion);
+        return resultado;
+    }
+
+    
+    
+    
+    
 }

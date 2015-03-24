@@ -23,11 +23,11 @@
                 <tbody>
                     <tr>
                         <td>Cedula de Ciudadania:</td>
-                        <td><input type="text" name="txt_cedula" value="" required/></td>
+                        <td><input type="text" name="txt_cedula" value=""/></td>
                     </tr>
                     <tr>
                         <td>Nombres:</td>
-                        <td><input type="text" name="txt_nombre" value="" required /></td>
+                        <td><input type="text" name="txt_nombre" value="" /></td>
                     </tr>
                     <tr>
                         <td>Apellidos:</td>
