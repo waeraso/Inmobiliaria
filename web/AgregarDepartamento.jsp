@@ -1,7 +1,7 @@
 <%-- 
     Document   : AgregarCiudad
     Created on : 23/03/2015, 03:34:18 PM
-    Author     : KMILO
+    Author     : SoftTeam
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
