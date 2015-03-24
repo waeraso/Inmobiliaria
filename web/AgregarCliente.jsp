@@ -4,8 +4,17 @@
     Author     : WILMER
 --%>
 
+<%@page import="com.inmobiliaria.mundo.Inmobiliaria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%  Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");
+    if (inmobiliaria == null)
+        inmobiliaria = new Inmobiliaria();
+    
+    session.setAttribute("inmobiliaria", inmobiliaria);
+%>
+
 <jsp:include page="index.html" flush="true" />
 <html>
     <head>

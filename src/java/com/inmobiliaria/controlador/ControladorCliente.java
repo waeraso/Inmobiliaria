@@ -36,7 +36,7 @@ public class ControladorCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(true);
-            Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");
+            Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");                           
             session.setAttribute("inmobiliaria", inmobiliaria);
             
             String operacionAgregar =  request.getParameter("btn_aceptar");
@@ -49,10 +49,9 @@ public class ControladorCliente extends HttpServlet {
                 String nombre = request.getParameter("txt_nombre");
                 String apellidos = request.getParameter("txt_apellidos");
                 String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");
+                String telefono = request.getParameter("txt_telefono");                
                 
-                
-                inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);
+                inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
 
                 //mensaje = "El vehículo con placa: " + imagen + " fue registrada con éxito";
 
@@ -62,7 +61,7 @@ public class ControladorCliente extends HttpServlet {
             }
             catch( Exception e )
             {
-                out.println(e.getMessage());
+               out.println(e.getMessage());
             }
         }
             
