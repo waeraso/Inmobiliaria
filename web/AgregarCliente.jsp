@@ -14,7 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form>
+        <form action="ControladorCliente">
             <div align="center">
                 <h1>
                     Agregar Cliente

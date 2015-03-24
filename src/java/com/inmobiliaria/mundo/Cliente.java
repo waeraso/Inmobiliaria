@@ -11,6 +11,8 @@ package com.inmobiliaria.mundo;
  */
 public class Cliente {
     
+    //id cliente
+    private int idCliente;      
     //cedula de cliente
     private int cedula;
     //nombre dle cliente
@@ -23,13 +25,22 @@ public class Cliente {
     private String telefono;
     
     //constructor de clase Cliente para inicializar atributos
-    public Cliente(int pCedula, String pNombre, String pApellidos, String pEmail, String pTelefono){
+    public Cliente(int pIdCliente, int pCedula, String pNombre, String pApellidos, String pEmail, String pTelefono){
+        idCliente = pIdCliente;
         cedula = pCedula;
         nombre = pNombre;
         apellidos = pApellidos;
         email = pEmail;
         telefono = pTelefono;                 
     }    
+    
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
     
     //obtener la cedula de un cliente
     public int getCedula() {

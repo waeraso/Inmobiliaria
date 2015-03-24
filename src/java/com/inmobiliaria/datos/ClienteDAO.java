@@ -80,13 +80,14 @@ public class ClienteDAO {
             Statement instruccion = conection.createStatement();
             ResultSet tabla = instruccion.executeQuery(sql);
             while (tabla.next()) {
+                int pId=0;
                 //int cedula = tabla.getString("cedula");
                 int cedula = Integer.parseInt( tabla.getString("cedula"));
                 String nombre = tabla.getString("nombre");
                 String apellidos = tabla.getString("apellido");
                 String email = tabla.getString("email");
                 String telefono = tabla.getString("telefono");                
-                Cliente cliente = new Cliente(cedula, nombre, apellidos, email, telefono);
+                Cliente cliente = new Cliente(pId, cedula, nombre, apellidos, email, telefono);
                 clientes.add(cliente);
             }        }
         return clientes;

@@ -5,6 +5,7 @@
  */
 package com.inmobiliaria.mundo;
 
+import com.inmobiliaria.datos.ClienteDAO;
 import java.util.ArrayList;
 
 /**
@@ -27,9 +28,13 @@ public class Inmobiliaria {
      */
     private ArrayList<Departamento> departamentos;
     
+    //objeto de ClienteDAO 
+    private ClienteDAO clienteDAO;
+    
     //constructor de clase inmobiliaria para inicializar las listas de clientes, ciudades, departamentos
     private Inmobiliaria(){       
-        
+        clienteDAO = new ClienteDAO();
+            
     }
     
     //obtener lista de clientes
@@ -103,7 +108,16 @@ public class Inmobiliaria {
     }
     
     //metodo para adicionar un cliente como parametro la cedula, nombre, apellidos, email y telefono 
-    public void adicionarCliente(int pCedula, String pNom, String pApell, String pEmail, String pTel){        
+    public void adicionarCliente(int pId, int pCedula, String pNom, String pApell, String pEmail, String pTel) throws Exception{        
+        Cliente cliente = buscarCliente(pCedula);
+        if (cliente == null)
+        {
+            cliente = new Cliente(pId, pCedula, pNom, pApell, pEmail, pTel);
+            clienteDAO.guardarCliente(cliente);
+            clientes.add(cliente);
+        }
+        else
+            throw new Exception("El cliente con la cedula: " + pCedula + " ya se encuetra registrado.");
         
     }
     
@@ -113,14 +127,13 @@ public class Inmobiliaria {
     }
     
     //metodo buscar un cliente recibiendo la cedula como parametro
-    public void buscarCliente(int pCedula){
-        
+    public Cliente buscarCliente(int pCedula){
+        return null;
     }
     
     //metodo eliminar un cliente recibiendo la cedula como parametro
     public void eliminarCliente(int pCedula){
         
-    }
-    
+    }  
     
 }
