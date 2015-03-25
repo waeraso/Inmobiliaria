@@ -146,7 +146,7 @@ public class DepartamentoDAO {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public int eliminarCiudad(Departamento pDepartamento) throws ClassNotFoundException, SQLException{
+    public int eliminarDepartamento (Departamento pDepartamento) throws ClassNotFoundException, SQLException{
         int resultado = -1;
         String sql = "DELETE FROM departamento WHERE nombre='"+pDepartamento.getNombre()+"'";
         Connection miConexion = fachada.conectar();

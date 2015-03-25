@@ -107,7 +107,7 @@ public class ClienteDAO {
      */
     public Cliente buscarCliente(String pCedula, String pNombres, String pApellidos) throws SQLException, ClassNotFoundException {
         Cliente cliente = null;
-        String sql = "SELECT cedula, nombres, apellidos, email, telefono FROM cliente WHERE cedula='" + pCedula + "'nombres='" + pNombres + "'apellidos='" + pApellidos + "'";
+        String sql = "SELECT cedula, nombre, apellidos, email, telefono FROM cliente WHERE cedula='" + pCedula + "'nombres='" + pNombres + "'apellidos='" + pApellidos + "'";
         Connection miConexion = fachada.conectar();
         if (miConexion != null) {
             Statement instruccion = miConexion.createStatement();

@@ -6,11 +6,13 @@
 package com.inmobiliaria.mundo;
 
 import com.inmobiliaria.datos.ClienteDAO;
+import com.inmobiliaria.datos.DepartamentoDAO;
 import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -34,13 +36,18 @@ public class Inmobiliaria {
 
     //objeto de ClienteDAO 
     private ClienteDAO clienteDAO;
+    
+    //objeto de DepartamentoDAO 
+    private DepartamentoDAO departamentoDAO;
 
     //constructor de clase inmobiliaria para inicializar las listas de clientes, ciudades, departamentos
     public Inmobiliaria(){
         try{
         clienteDAO = new ClienteDAO();
+        departamentoDAO = new DepartamentoDAO();
         //clientes = new ArrayList<Cliente>();
-        clientes = clienteDAO.listado();               
+        clientes = clienteDAO.listado(); 
+        departamentos = departamentoDAO.listado();
         
         }
         catch(SQLException | ClassNotFoundException ex){
@@ -92,22 +99,68 @@ public class Inmobiliaria {
     }
 
     //metodo para adicionar un departamento recibiendo como parametro el id y el nombre
-    public void adicionarDepartamento(int pIdDep, String pNom) {
+    public void adicionarDepartamento(String pNom) throws Exception{
+        if(buscarDepartamento(pNom)==null)
+        {
+            int id=0;
+            Departamento dept=new Departamento(id,pNom);
+            departamentoDAO.agregarDepartamento(dept);
+            departamentos.add(dept);
+            
+        }
 
     }
 
     //metodo de modificar un departamento recibiendo como parametro id y nombre
-    public void modificarDepartamento(int pIdDep, String pNom) {
+    public void modificarDepartamento(String pNom) throws Exception
+    {
+        Departamento dept = buscarDepartamento(pNom);
+        if (dept != null)
+        {
+            dept = buscarDepartamento(pNom);
+            if (dept == null)
+            {
+                dept.setNombre(pNom);
+                departamentoDAO.modificarDepartamento(pNom, dept);
+            }
+            else
+                throw new Exception ("Ya existe ciudad con el nombre ingresado");
+        }
+        else
+            throw new Exception ("No se encuentra la ciudad registrada");
 
     }
 
     //metodo buscar un departamento recibiendo el idDep como parametro
-    public void buscarDepartamento(int pIdDep) {
+    public Departamento buscarDepartamento(String pNombre) {
+        
+        Departamento dept= null;
+        boolean encontrado=false;
+        for(int i=0; i<departamentos.size() && !encontrado;i++)
+        {
+            if(departamentos.get(i).getNombre().equals(pNombre))
+            {
+                dept=departamentos.get(i);
+                encontrado=true;
+            }
+            
+        }
+        return dept;
 
     }
 
     //metodo eliminar un departamento recibiendo el idDep como parametro
-    public void eliminarDepartamento(int pIdDep) {
+    public void eliminarDepartamento(String pNom) throws Exception
+    {
+        
+        Departamento dept = buscarDepartamento(pNom);
+        if (dept != null)
+        {
+            departamentoDAO.eliminarDepartamento(dept);
+            departamentos.remove(dept);
+        }
+        else
+            throw new Exception("El Departamento no se encuentra registrado.");
 
     }
 
