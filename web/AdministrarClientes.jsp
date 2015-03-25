@@ -13,13 +13,11 @@
         <title>Administrar Clientes</title>
     </head>
     <body>
-        <form>
+        <form action="ControladorCliente">
             <div align="center">
-                <h1>
-                    Buscar Cliente
-                </h1>
-                <table border="0">
+                <h1>Buscar Cliente</h1>
                 
+                <table border="0">                
                 <tbody>
                     <tr>
                         <td>Cedula de Ciudadania:</td>
@@ -34,11 +32,10 @@
                         <td><input type="text" name="txt_apellidos" value="" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Aceptar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
-                    </tr>
-                
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                    </tr>                
                 </tbody>
-            </table>
+            </table>                                                                         
               </div>
         </form>
         <jsp:include page="Fooder.html" flush="true" />

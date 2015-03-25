@@ -44,7 +44,7 @@ public class ControladorCliente extends HttpServlet {
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
             
-            if (operacion.equals("Agregar"))
+            /*if (operacion.equals("Agregar"))
             {
             try
             {
@@ -67,19 +67,24 @@ public class ControladorCliente extends HttpServlet {
             {
                out.println(e.getMessage());
             }
-        }
+        }*/
             
-        //buscar clientes          
-        else if (operacion.equals("Buscar"))
+        //buscar clientes             
+        if (operacion.equals("Buscar"))
         {
             Cliente cliente1 = new Cliente(1,108,"juan","c","juan@h.com","121");
             Cliente cliente2 = new Cliente(2,1085,"pepe","p","p@h.com","777");
             ArrayList<Cliente> clientes = new ArrayList<Cliente>();
             clientes.add(cliente1);
-            clientes.add(cliente2);    
+            clientes.add(cliente2); 
+            //System.out.println("hola mundo");
             
-           request.setAttribute("clientes", clientes); //declarar variable de sesion
-           request.getRequestDispatcher("AdministrarClientes.jsp").forward(request, response);
+           session.setAttribute("clientes", clientes); //declarar variable de sesion
+           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);            
+           
+           //response.sendRedirect("./MostrarClientes.jsp");          
+           
+           
            
                     /*out.println("<table border='1'>");
                         out.println("<tr>");;                       
@@ -101,8 +106,7 @@ public class ControladorCliente extends HttpServlet {
                             out.println("<td>"+c.getTelefono()+"</td>");                            
                         out.println("</tr>");
                     }
-                out.println("</table>"); */ 
-         
+                out.println("</table>"); */                          
         }
             
         
