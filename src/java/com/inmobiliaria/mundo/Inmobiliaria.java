@@ -146,19 +146,91 @@ public class Inmobiliaria {
     }
 
     //metodo para modficar un cliente como parametro la cedula, nombre, apellidos, email y telefono 
-    public void modificarCliente(int pCedula, String pNom, String pApell, String pEmail, String pTel) {
+    public void modificarCliente(int pCedula, String pNom, String pApell, String pEmail, String pTel) throws Exception {
+        Cliente cliente = buscarCliente(pCedula);
+        if (cliente != null)
+        { 
+            try{
+                cliente.setNombre(pNom);
+                cliente.setApellidos(pApell);
+                cliente.setEmail(pEmail);
+                cliente.setTelefono(pTel);
+                
+                clienteDAO.modificarCliente(pCedula, cliente);            
+            }
+            catch(Exception e){
+                throw new Exception ("El cliente ya existe");
+            }
+                
+        }
+        else
+            throw new Exception ("El cliente no se encuentra registrado");
 
+    }
+    
+    public Cliente buscarCliente(int pCedula){
+        Cliente cliente = null;
+        boolean encontrado = false;
+        for (int i=0; i<clientes.size()&&!encontrado; i++)
+        {
+            if(clientes.get(i).getCedula() == pCedula)
+            {
+                cliente = clientes.get(i);
+                encontrado = true;
+            }
+        }
+        return cliente;
     }
 
     //metodo buscar un cliente recibiendo la cedula como parametro
-    public Cliente buscarCliente(int pCedula) {
-
-        return null;
+    public ArrayList<Cliente>  buscarClientes(int pCedula, String pNom) {
+        ArrayList<Cliente> misClientes = new ArrayList<Cliente>();
+        boolean encontrado = false;
+        
+        if(pCedula!=0 && pNom!=null){
+            for(int i=0;i<clientes.size() && !encontrado;i++){
+                if (clientes.get(i).getCedula()==pCedula)
+                {
+                    Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(),clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());                              
+                    misClientes.add(miCliente);
+                    encontrado = true;
+                }                        
+            }
+        }
+        else if(pCedula!=0){
+            for(int i=0;i<clientes.size() && !encontrado;i++){
+                if (clientes.get(i).getCedula()==pCedula)
+                {
+                    Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(),clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());                              
+                    misClientes.add(miCliente);
+                    encontrado = true;
+                }                        
+            }            
+        }   
+        else if(pNom!=null){
+            for(int i=0; i<clientes.size() && !encontrado; i++){
+                if (clientes.get(i).getNombre()==pNom)
+                {
+                    Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(),clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());                              
+                    misClientes.add(miCliente);
+                    encontrado = true;
+                }                        
+            }            
+        }   
+        
+        return misClientes;
     }
 
     //metodo eliminar un cliente recibiendo la cedula como parametro
-    public void eliminarCliente(int pCedula) {
+    public void eliminarCliente(int pCedula) throws ClassNotFoundException, SQLException, Exception {
+        Cliente cliente = buscarCliente(pCedula);
+        if (cliente != null)
+        {
+            clienteDAO.eliminarCliente(cliente);
+            clientes.remove(cliente);
+        }
+        else
+            throw new Exception ("El cliente no se encuentra Registrado");
 
     }
-
 }

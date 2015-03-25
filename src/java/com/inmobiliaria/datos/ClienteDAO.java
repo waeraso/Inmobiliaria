@@ -83,14 +83,14 @@ public class ClienteDAO {
             Statement instruccion = conection.createStatement();
             ResultSet tabla = instruccion.executeQuery(sql);
             while (tabla.next()) {
-                int pId = 0;
-                //int cedula = tabla.getString("cedula");
+                
+                int idCliente = Integer.parseInt(tabla.getString("idCliente"));
                 int cedula = Integer.parseInt(tabla.getString("cedula"));
                 String nombre = tabla.getString("nombre");
                 String apellidos = tabla.getString("apellidos");
                 String email = tabla.getString("email");
                 String telefono = tabla.getString("telefono");
-                Cliente cliente = new Cliente(pId, cedula, nombre, apellidos, email, telefono);
+                Cliente cliente = new Cliente(idCliente, cedula, nombre, apellidos, email, telefono);
                 clientes.add(cliente);
             }
         }
@@ -150,9 +150,9 @@ public class ClienteDAO {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public int modificarCliente(String pCedula, Cliente pCliente) throws ClassNotFoundException, SQLException {
+    public int modificarCliente(int pCedula, Cliente pCliente) throws ClassNotFoundException, SQLException {
         int resultado = -1;
-        String sql = "UPDATE cliente SET cedula='" + pCliente.getCedula() + "', nombres='" + pCliente.getNombre() + "', apellidos='" + pCliente.getApellidos() + "', email='" + pCliente.getEmail() + "', telefono='" + pCliente.getTelefono() + "'"
+        String sql = "UPDATE cliente SET nombres='" + pCliente.getNombre() + "', apellidos='" + pCliente.getApellidos() + "', email='" + pCliente.getEmail() + "', telefono='" + pCliente.getTelefono() + "'"
                 + "WHERE cedula='" + pCedula + "'";
         Connection miConexion = fachada.conectar();
         if (miConexion != null) {

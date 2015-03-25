@@ -37,10 +37,10 @@ public class ControladorCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession(true);
+            HttpSession session = request.getSession(true);            
             
             Inmobiliaria inmobiliaria= (Inmobiliaria) session.getAttribute("inmobiliaria");                           
-            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+            ArrayList<Cliente> clientes = new ArrayList<Cliente>();                       
             
             if(inmobiliaria==null) inmobiliaria = Inmobiliaria.darObjeto();
             
@@ -52,18 +52,19 @@ public class ControladorCliente extends HttpServlet {
             if (operacion.equals("Agregar"))
             {
             try
-            {
+            {            
+                //variables de campos de texto:
                 int id=0;
                 int cedula = Integer.parseInt(request.getParameter("txt_cedula"));
                 String nombre = request.getParameter("txt_nombre");
                 String apellidos = request.getParameter("txt_apellidos");
                 String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");                
+                String telefono = request.getParameter("txt_telefono");
                 
                 inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
                 clientes.add(new Cliente(id, cedula, nombre, apellidos, email, telefono));
 
-                mensaje = "El Cliente fue registrada con éxito";
+                mensaje = "El Cliente fue registrado con éxito";
 
                 session.setAttribute("mensaje", mensaje);
 
@@ -77,16 +78,23 @@ public class ControladorCliente extends HttpServlet {
             
         //buscar clientes             
         if (operacion.equals("Buscar"))
-        {            
-             // = new ArrayList<Cliente>();
-            clientes = inmobiliaria.getClientes();                                              
+        {  
+                int cedula=0;
+                try{
+                    cedula = Integer.parseInt(request.getParameter("txt_cedula"));
+                }
+                catch(Exception e){
+                    cedula =0;
+                }
+                
+                String nombre = request.getParameter("txt_nombre");                                
+           
+            clientes = inmobiliaria.buscarClientes(cedula, nombre);
             
            session.setAttribute("clientes", clientes); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                      
+           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                     
                                    
-        }
-            
-        
+        }                  
             
         }
     }

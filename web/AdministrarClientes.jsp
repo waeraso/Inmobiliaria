@@ -26,11 +26,7 @@
                     <tr>
                         <td>Nombres:</td>
                         <td><input type="text" name="txt_nombre" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Apellidos:</td>
-                        <td><input type="text" name="txt_apellidos" value="" /></td>
-                    </tr>
+                    </tr>                    
                     <tr>
                         <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
                     </tr>                
