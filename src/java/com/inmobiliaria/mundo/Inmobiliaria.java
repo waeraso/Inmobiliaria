@@ -7,7 +7,10 @@ package com.inmobiliaria.mundo;
 
 import com.inmobiliaria.datos.ClienteDAO;
 import static java.lang.System.out;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,10 +36,30 @@ public class Inmobiliaria {
     private ClienteDAO clienteDAO;
 
     //constructor de clase inmobiliaria para inicializar las listas de clientes, ciudades, departamentos
-    public Inmobiliaria() {
+    public Inmobiliaria(){
+        try{
         clienteDAO = new ClienteDAO();
-
+        //clientes = new ArrayList<Cliente>();
+        clientes = clienteDAO.listado();               
+        
+        }
+        catch(SQLException | ClassNotFoundException ex){
+            Logger.getLogger(Inmobiliaria.class.getName()).log(Level.SEVERE, null, ex);        
+        }
     }
+    
+    //objeto de la clase (singleton)
+    private static Inmobiliaria objeto = null;
+    //dar objeto de la clase
+        public static Inmobiliaria darObjeto()
+        {
+            if (objeto == null)
+            {
+                objeto = new Inmobiliaria();
+            }
+            
+            return objeto;
+        }
 
     //obtener lista de clientes
     public ArrayList<Cliente> getClientes() {

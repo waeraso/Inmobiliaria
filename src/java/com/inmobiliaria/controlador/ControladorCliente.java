@@ -38,13 +38,18 @@ public class ControladorCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession(true);
-            Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");                           
+            
+            Inmobiliaria inmobiliaria= (Inmobiliaria) session.getAttribute("inmobiliaria");                           
+            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+            
+            if(inmobiliaria==null) inmobiliaria = Inmobiliaria.darObjeto();
+            
             session.setAttribute("inmobiliaria", inmobiliaria);
             
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
             
-            /*if (operacion.equals("Agregar"))
+            if (operacion.equals("Agregar"))
             {
             try
             {
@@ -56,6 +61,7 @@ public class ControladorCliente extends HttpServlet {
                 String telefono = request.getParameter("txt_telefono");                
                 
                 inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
+                clientes.add(new Cliente(id, cedula, nombre, apellidos, email, telefono));
 
                 mensaje = "El Cliente fue registrada con éxito";
 
@@ -67,46 +73,17 @@ public class ControladorCliente extends HttpServlet {
             {
                out.println(e.getMessage());
             }
-        }*/
+        }
             
         //buscar clientes             
         if (operacion.equals("Buscar"))
-        {
-            Cliente cliente1 = new Cliente(1,108,"juan","c","juan@h.com","121");
-            Cliente cliente2 = new Cliente(2,1085,"pepe","p","p@h.com","777");
-            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-            clientes.add(cliente1);
-            clientes.add(cliente2); 
-            //System.out.println("hola mundo");
+        {            
+             // = new ArrayList<Cliente>();
+            clientes = inmobiliaria.getClientes();                                              
             
            session.setAttribute("clientes", clientes); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);            
-           
-           //response.sendRedirect("./MostrarClientes.jsp");          
-           
-           
-           
-                    /*out.println("<table border='1'>");
-                        out.println("<tr>");;                       
-                        out.println("<td>IdCliente</td>");
-                        out.println("<td>Nombre</td>");                        
-                        out.println("<td>Apellidos</td>");
-                        out.println("<td>Cedula</td>");                        
-                        out.println("<td>Email</td>");
-                        out.println("<td>Telefono</td>");                        
-                    out.println("</tr>");
-                    
-                    for(Cliente c : clientes){
-                        out.println("<tr>");
-                            out.println("<td>"+c.getIdCliente()+"</td>");
-                            out.println("<td>"+c.getNombre()+"</td>");
-                            out.println("<td>"+c.getApellidos()+"</td>");
-                            out.println("<td>"+c.getCedula()+"</td>");
-                            out.println("<td>"+c.getEmail()+"</td>");
-                            out.println("<td>"+c.getTelefono()+"</td>");                            
-                        out.println("</tr>");
-                    }
-                out.println("</table>"); */                          
+           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                      
+                                   
         }
             
         

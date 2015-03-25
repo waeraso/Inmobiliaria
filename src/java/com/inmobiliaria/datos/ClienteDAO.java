@@ -53,7 +53,7 @@ public class ClienteDAO {
         String apellidos = pCliente.getApellidos();
         String email = pCliente.getEmail();
         String telefono = pCliente.getTelefono();
-        String sql = "INSERT INTO cliente (cedula, nombres, apellidos, email, telefono)"
+        String sql = "INSERT INTO cliente (cedula, nombre, apellidos, email, telefono)"
                 + "VALUES ('" + cedula + "','" + nombre + "', '" + apellidos + "', '" + email + "', '" + telefono + "')";
         Connection conection = fachada.conectar();
         if (conection != null) {
@@ -77,7 +77,7 @@ public class ClienteDAO {
      */
     public ArrayList<Cliente> listado() throws ClassNotFoundException, SQLException {
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-        String sql = "SELECT * FROM cliente ORDER BY apellido asc, nombre asc";
+        String sql = "SELECT * FROM cliente ORDER BY apellidos asc";
         Connection conection = fachada.conectar();
         if (conection != null) {
             Statement instruccion = conection.createStatement();
@@ -87,7 +87,7 @@ public class ClienteDAO {
                 //int cedula = tabla.getString("cedula");
                 int cedula = Integer.parseInt(tabla.getString("cedula"));
                 String nombre = tabla.getString("nombre");
-                String apellidos = tabla.getString("apellido");
+                String apellidos = tabla.getString("apellidos");
                 String email = tabla.getString("email");
                 String telefono = tabla.getString("telefono");
                 Cliente cliente = new Cliente(pId, cedula, nombre, apellidos, email, telefono);
