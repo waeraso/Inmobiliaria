@@ -5,7 +5,8 @@
  */
 package com.inmobiliaria.controlador;
 
-import com.inmobiliaria.mundo.Cliente;
+import com.inmobiliaria.mundo.Ciudad;
+import com.inmobiliaria.mundo.Departamento;
 import com.inmobiliaria.mundo.Inmobiliaria;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author KMILO
  */
-@WebServlet(name = "ControladorCliente", urlPatterns = {"/ControladorCliente"})
-public class ControladorCliente extends HttpServlet {
+@WebServlet(name = "ControladorCiudad", urlPatterns = {"/ControladorCiudad"})
+public class ControladorCiudad extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,34 +41,30 @@ public class ControladorCliente extends HttpServlet {
             HttpSession session = request.getSession(true);            
             
             Inmobiliaria inmobiliaria= (Inmobiliaria) session.getAttribute("inmobiliaria");                           
-            ArrayList<Cliente> clientes = new ArrayList<Cliente>();                       
+            ArrayList<Ciudad> ciudades = new ArrayList<Ciudad>();                       
             
             if(inmobiliaria==null) inmobiliaria = Inmobiliaria.darObjeto();
             
-            session.setAttribute("inmobiliaria", inmobiliaria);
+            session.setAttribute("inmobiliaria", inmobiliaria);                                  
             
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
             
+            //agregar ciudad            
             if (operacion.equals("Agregar"))
-            {
+            {                
             try
             {            
-                //variables de campos de texto:
-                int id=0;
-                int cedula = Integer.parseInt(request.getParameter("txt_cedula"));
-                String nombre = request.getParameter("txt_nombre");
-                String apellidos = request.getParameter("txt_apellidos");
-                String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");
+                //variables de campos de texto:  
+                int id =0;
+                String nombre = request.getParameter("txt_nombre");              
+                String depto = request.getParameter("dpd_departamento");              
                 
-                inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
-                clientes.add(new Cliente(id, cedula, nombre, apellidos, email, telefono));
+                inmobiliaria.adicionarCiudad(nombre, depto);
+                ciudades.add(new Ciudad(id,nombre,depto));
 
-                mensaje = "El Cliente fue registrado con éxito";
-
+                mensaje = "La Ciudad fue registrado con éxito";
                 session.setAttribute("mensaje", mensaje);
-
                 response.sendRedirect("./Mensajes.jsp");
             }
             catch( Exception e )
@@ -76,62 +73,44 @@ public class ControladorCliente extends HttpServlet {
             }
         }
             
-        //buscar clientes             
+         String nombreCiudad = (String) session.getAttribute("nombreCiudad");
+        //buscar ciudad             
         if (operacion.equals("Buscar"))
-        {  
-                int cedula=0;
-                try{
-                    cedula = Integer.parseInt(request.getParameter("txt_cedula"));
-                }
-                catch(Exception e){
-                    cedula =0;
-                }
-                
-                String nombre = request.getParameter("txt_nombre");                                
+        {                  
+            nombreCiudad = request.getParameter("txt_nombre");                                
+            Ciudad ciudad = null;
+            ciudad = inmobiliaria.buscarCiudad(nombreCiudad);            
            
-            clientes = inmobiliaria.buscarClientes(cedula, nombre);
-            
-           session.setAttribute("clientes", clientes); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                     
+            session.setAttribute("ciudad", ciudad); //declarar variable de sesion
+            session.setAttribute("nombreCiudad", nombreCiudad); //declarar variable de sesion
+           request.getRequestDispatcher("./MostrarCiudades.jsp").forward(request, response);                     
                                    
         }
-        
-        //llevar a pagina de modificar un clinte
-        if (operacion.equals("Editar"))
-        {
-            int cedula = Integer.parseInt(request.getParameter("val"));           
-            Cliente cliente = inmobiliaria.buscarCliente(cedula);
-            if(cliente!=null){
-                request.setAttribute("cliente", cliente); //declarar variable de sesion
-                request.getRequestDispatcher("ModificarCliente.jsp").forward(request, response);                          
-            }                                            
-        }
-        
-        //modificar un cliente:
+                    
+        //modificar una ciudad:
         if(operacion.equals("Modificar")){
-            //variables de campos de texto:                
-                int cedula = Integer.parseInt(request.getParameter("txt_cedula"));
+            //variables de campos de texto:                                
                 String nombre = request.getParameter("txt_nombre");
-                String apellidos = request.getParameter("txt_apellidos");
-                String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");
+                String depto = request.getParameter("txt_departamento");
                 
-                inmobiliaria.modificarCliente(cedula, nombre, apellidos, email, telefono);
+                Ciudad ciudad = inmobiliaria.buscarCiudad(nombreCiudad);
                 
-                mensaje = "El Cliente fue modificado con éxito";
+                int idCiudad = ciudad.getIdCiudad();
+                inmobiliaria.modificarCiudad(nombre, depto, nombreCiudad);
+                
+                mensaje = "La Ciudad fue modificada con éxito";
                 session.setAttribute("mensaje", mensaje);
                 response.sendRedirect("./Mensajes.jsp");                    
         }
         
-        //eliminar cliente:
+        //eliminar ciudad:
         if(operacion.equals("Eliminar")){
-            int cedula = Integer.parseInt(request.getParameter("val"));           
-            inmobiliaria.eliminarCliente(cedula);    
-            mensaje = "El Cliente fue eliminado con éxito";
+            
+            inmobiliaria.eliminarCiudad(nombreCiudad);
+            mensaje = "La Ciudad fue eliminada con éxito";
             session.setAttribute("mensaje", mensaje);
             response.sendRedirect("./Mensajes.jsp");
         }
-            
         }
     }
 

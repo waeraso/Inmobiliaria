@@ -15,9 +15,13 @@
     </head>
     <body>
         <jsp:include page="Header.html" flush="true" />
+        <form id="formu" action="ControladorCliente">
+            <input type ="hidden" name="val">
+            
         <div align="center">
-        <h1>Lista Clientes</h1>                   
-        <table border="1">
+        <h1>Lista Clientes</h1>          
+        
+        <table border="1" id="tabla">
             <tr>
                 <td>IdCliente</td>
                 <td>Cedula</td>
@@ -26,7 +30,8 @@
                 <td>Email</td>
                 <td>Telefono</td>
             </tr>
-            
+            <%int i=0;
+                %>
         <c:forEach var="cliente" items="${sessionScope.clientes}">
             <tr>
                 <td>${cliente.idCliente}</td>
@@ -35,10 +40,26 @@
                 <td>${cliente.apellidos}</td>
                 <td>${cliente.email}</td>
                 <td>${cliente.telefono}</td>
+                <%i=i+1;
+                %>
+                <td><input type="submit" value="Editar" name="btn_aceptar" onclick="modificar(<%=i%>)"/>
+                <input type="submit" value="Eliminar" name="btn_aceptar" onclick="modificar(<%=i%>)"/></td>
+                
             </tr>            
         </c:forEach> 
         </table>
+        <input type="submit" value="Regresar" name="btn_regresar" onclick="javascript:window.history.back();"/>        
+       </div>
+        </form>        
         <jsp:include page="Fooder.html" flush="true" />
-        </div>
+        
     </body>
+    
+    <script type="text/javascript">
+        function modificar(p1) {
+            var x = document.getElementById("tabla").rows[p1].cells[1].innerHTML ;                                   
+            document.forms["formu"].elements[0].value = x;                                   
+        }                
+    </script>
+
 </html>

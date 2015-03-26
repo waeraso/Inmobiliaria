@@ -13,7 +13,7 @@
         <title>Administrar Ciudades</title>
     </head>
     <body>
-        <form > 
+        <form action="ControladorCiudad"> 
              <div align="center">
              <h1>Buscar Ciudades</h1>
                 <table border="0" align="center">
@@ -22,7 +22,7 @@
                         <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
                     </tr>                                                                              
                     <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" />                          <input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar"/>                          <input type="reset" value="Cancelar" /></td>
                     </tr>                    
                 </table>
              </div>

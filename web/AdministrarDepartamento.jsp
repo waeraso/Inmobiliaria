@@ -14,7 +14,7 @@
         <title>Administrar Departamentos</title>
     </head>
     <body>        
-        <form align="center" id="formulario" action="" method="post">                       
+        <form align="center" action="ControladorDepartamento">                       
             <div align="center">
              <h1>Buscar Departamentos</h1>
                 <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -23,7 +23,7 @@
                         <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
                     </tr>                                                                              
                     <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" />                          <input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar"/>                          <input type="reset" value="Cancelar" /></td>
                     </tr>                    
                 </table>
              </div>

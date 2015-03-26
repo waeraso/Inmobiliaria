@@ -18,12 +18,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>resultados</title>
     </head>
     <body>  
         <div align="center">
         <h2><%=mensaje %></h2>
-        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="javascript:window.history.back();"/>        
+        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="location='index.jsp'"/>        
         <jsp:include page="Fooder.html" flush="true" />
         </div>
     </body>

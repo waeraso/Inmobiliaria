@@ -49,7 +49,7 @@ public class DepartamentoDAO {
         int insertar = -1;
         String nombre = pDepartamento.getNombre();
         String sql = "INSERT INTO departamento (nombre)"
-                + "VALUES("+nombre+",'" + pDepartamento.getNombre()+"')";
+                + "VALUES('" + nombre + "')";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {
@@ -79,7 +79,7 @@ public class DepartamentoDAO {
             Statement instruccion = conection.createStatement();
             ResultSet tabla = instruccion.executeQuery(sql);
             while (tabla.next()) {
-                int pIdDep = 0;                
+                int pIdDep = Integer.parseInt(tabla.getString("idDepartamento"));
                 String nombre = tabla.getString("nombre");
                 Departamento departamento = new Departamento(pIdDep, nombre);
                 departamentos.add(departamento);
@@ -123,10 +123,10 @@ public class DepartamentoDAO {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public int modificarDepartamento(String pNombre, Departamento pDepartamento) throws ClassNotFoundException, SQLException{
+    public int modificarDepartamento(int pIdDep, String pNombre) throws ClassNotFoundException, SQLException{
         int resultado = -1;
-        String sql = "UPDATE departamento SET nombre='"+ pDepartamento.getNombre()+"'"
-                + "WHERE nombre='"+ pNombre +"'";
+        String sql = "UPDATE departamento SET nombre='"+ pNombre+"'"
+                + "WHERE idDepartamento='"+ pIdDep +"'";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {

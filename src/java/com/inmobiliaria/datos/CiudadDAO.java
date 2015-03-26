@@ -53,7 +53,7 @@ public class CiudadDAO {
         String nombre = pCiudad.getNombre();
         String departamento = pCiudad.getDepartamento();
         String sql = "INSERT INTO ciudad (nombre, departamento)"
-                + "VALUES("+nombre+",'" + pCiudad.getNombre()+"',"+ departamento +",'"+pCiudad.getDepartamento()+"')";
+                + "VALUES('"+nombre+"','"+departamento+"')";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {
@@ -129,10 +129,10 @@ public class CiudadDAO {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public int modificarCiudad(String pNombre, Ciudad pCiudad) throws ClassNotFoundException, SQLException{
+    public int modificarCiudad(String pNombre, String pNomAnterior) throws ClassNotFoundException, SQLException{
         int resultado = -1;
-        String sql = "UPDATE ciudad SET nombre='"+ pCiudad.getNombre()+"'"
-                + "WHERE nombre='"+ pNombre +"'";
+        String sql = "UPDATE ciudad SET nombre='"+ pNombre+"'"
+                + "WHERE nombre='"+ pNomAnterior +"'";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {

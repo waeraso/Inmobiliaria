@@ -48,8 +48,9 @@ public class Inmobiliaria {
         try {
             clienteDAO = new ClienteDAO();
             departamentoDAO = new DepartamentoDAO();
-            //clientes = new ArrayList<Cliente>();
+            ciudadDAO = new CiudadDAO();
             clientes = clienteDAO.listado();
+            ciudades = ciudadDAO.listado();
             departamentos = departamentoDAO.listado();
 
         } catch (SQLException | ClassNotFoundException ex) {
@@ -107,24 +108,27 @@ public class Inmobiliaria {
             Departamento dept = new Departamento(id, pNom);
             departamentoDAO.agregarDepartamento(dept);
             departamentos.add(dept);
-
         }
 
     }
 
-    //metodo de modificar un departamento recibiendo como parametro id y nombre
-    public void modificarDepartamento(String pNom) throws Exception {
-        Departamento dept = buscarDepartamento(pNom);
+    //metodo de modificar un departamento recibiendo como parametro nombre
+    public void modificarDepartamento(int pId, String pNom, String pNomAnterior) {
+        try{
+        Departamento dept = buscarDepartamento(pNomAnterior);
         if (dept != null) {
             dept = buscarDepartamento(pNom);
             if (dept == null) {
-                dept.setNombre(pNom);
-                departamentoDAO.modificarDepartamento(pNom, dept);
+               departamentoDAO.modificarDepartamento(pId, pNom);
             } else {
-                throw new Exception("Ya existe ciudad con el nombre ingresado");
+                //throw new Exception("Ya existe departamento con el nombre ingresado");
             }
         } else {
-            throw new Exception("No se encuentra la ciudad registrada");
+            //throw new Exception("No se encuentra el departamento registrada");
+        }
+        }
+        catch(Exception e){
+            
         }
 
     }
@@ -146,7 +150,9 @@ public class Inmobiliaria {
     }
 
     //metodo eliminar un departamento recibiendo el idDep como parametro
-    public void eliminarDepartamento(String pNom) throws Exception {
+    public void eliminarDepartamento(String pNom){
+        
+        try{
 
         Departamento dept = buscarDepartamento(pNom);
         if (dept != null) {
@@ -155,42 +161,54 @@ public class Inmobiliaria {
         } else {
             throw new Exception("El Departamento no se encuentra registrado.");
         }
+        }
+        catch(Exception e){
+            
+        }
 
     }
 
     //metodo para adicionar una recibiendo como parametro el id, el nombre y el departamento al que pertenece
-    public void adicionarCiudad(int pId, String pNom, String pDep) throws Exception {
+    public void adicionarCiudad(String pNom, String pDep) throws Exception {
         try {
             Ciudad ciudad = buscarCiudad(pNom);
             if (ciudad == null) {
-                ciudad = new Ciudad(pId, pNom, pDep);
+                int id=0;
+                ciudad = new Ciudad(id,pNom, pDep);
                 ciudadDAO.agregarCiudad(ciudad);
                 ciudades.add(ciudad);
             }
+            else{
+                throw new Exception("La ciudad con nombre: " + pNom + " ya se encuentra registrada.");                
+            }
         } catch (Exception e) {
-            throw new Exception("La ciudad con nombre: " + pNom + " ya se encuentra registrada.");
+            throw new Exception(e);
         }
 
     }
 
     //metodo de modificar una Ciudad recibiendo como parametro id, nombre y el departamento al que pertenece
-    public void modificarCiudad(String pNom, Departamento pDep) throws Exception {
-        Ciudad ciudad = buscarCiudad(pNom);
+    public void modificarCiudad(String pNom, String pDep, String pNomAnterior){
+        try{
+        Ciudad ciudad = buscarCiudad(pNomAnterior);
         if (ciudad != null) {
             ciudad = buscarCiudad(pNom);
-            if (ciudad == null) {
-                ciudad.setNombre(pNom);
-                ciudadDAO.modificarCiudad(pNom, ciudad);
+            if (ciudad == null) {                
+                ciudadDAO.modificarCiudad(pNom, pNomAnterior);
             } else {
                 throw new Exception("La ciudad con el nombre ingresado ya existe");
             }
         } else {
             throw new Exception("La ciudad ingresada no se encuentra");
         }
+        }
+        catch(Exception e){            
+            
+        }
     }
 
     //metodo buscar una ciudad recibiendo el idCiudad como parametro
-    public Ciudad buscarCiudad(String pNombre) throws Exception {
+    public Ciudad buscarCiudad(String pNombre){
         Ciudad ciudad = null;
         boolean encontrado = false;
         for (int i = 0; i < ciudades.size() && !encontrado; i++) {
@@ -203,13 +221,18 @@ public class Inmobiliaria {
     }
 
     //metodo eliminar una ciudad recibiendo el idCiudad como parametro
-    public void eliminarCiudad(String pNombre) throws Exception {
+    public void eliminarCiudad(String pNombre){
+        try{
         Ciudad ciudad = buscarCiudad(pNombre);
         if (ciudad != null) {
             ciudadDAO.eliminarCiudad(ciudad);
             ciudades.remove(ciudad);
         } else {
             throw new Exception("No se encuentra la ciudad registrada");
+        }
+        }
+        catch(Exception e){
+            
         }
     }
 
@@ -228,7 +251,7 @@ public class Inmobiliaria {
     }
 
     //metodo para modficar un cliente como parametro la cedula, nombre, apellidos, email y telefono 
-    public void modificarCliente(int pCedula, String pNom, String pApell, String pEmail, String pTel) throws Exception {
+    public void modificarCliente(int pCedula, String pNom, String pApell, String pEmail, String pTel){
         Cliente cliente = buscarCliente(pCedula);
         if (cliente != null) {
             try {
@@ -239,13 +262,12 @@ public class Inmobiliaria {
 
                 clienteDAO.modificarCliente(pCedula, cliente);
             } catch (Exception e) {
-                throw new Exception("El cliente ya existe");
+                //("El cliente ya existe");
             }
 
         } else {
-            throw new Exception("El cliente no se encuentra registrado");
+            //throw new Exception("El cliente no se encuentra registrado");
         }
-
     }
 
     public Cliente buscarCliente(int pCedula) {
@@ -265,9 +287,9 @@ public class Inmobiliaria {
         ArrayList<Cliente> misClientes = new ArrayList<Cliente>();
         boolean encontrado = false;
 
-        if (pCedula != 0 && pNom != null) {
+        if (pCedula != 0 && pNom != "") {
             for (int i = 0; i < clientes.size() && !encontrado; i++) {
-                if (clientes.get(i).getCedula() == pCedula) {
+                if (clientes.get(i).getCedula() == pCedula && clientes.get(i).getNombre().equals(pNom)) {
                     Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(), clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());
                     misClientes.add(miCliente);
                     encontrado = true;
@@ -281,28 +303,30 @@ public class Inmobiliaria {
                     encontrado = true;
                 }
             }
-        } else if (pNom != null) {
-            for (int i = 0; i < clientes.size() && !encontrado; i++) {
-                if (clientes.get(i).getNombre() == pNom) {
+        } else if (pNom != "") {
+            for (int i = 0; i < clientes.size(); i++) {
+                if (clientes.get(i).getNombre().equals(pNom)) {
                     Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(), clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());
-                    misClientes.add(miCliente);
-                    encontrado = true;
+                    misClientes.add(miCliente);                    
                 }
             }
         }
-
         return misClientes;
     }
 
     //metodo eliminar un cliente recibiendo la cedula como parametro
-    public void eliminarCliente(int pCedula) throws ClassNotFoundException, SQLException, Exception {
+    public void eliminarCliente(int pCedula){
         Cliente cliente = buscarCliente(pCedula);
         if (cliente != null) {
+            try{
             clienteDAO.eliminarCliente(cliente);
             clientes.remove(cliente);
+            }
+            catch(Exception e){
+                
+            }
         } else {
-            throw new Exception("El cliente no se encuentra Registrado");
+            //throw new Exception("El cliente no se encuentra Registrado");
         }
-
     }
 }

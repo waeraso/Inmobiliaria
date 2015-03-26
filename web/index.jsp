@@ -13,6 +13,14 @@
     </head>
     <body>
         <jsp:include page="Header.html" flush="true" />
+        <div align="center">
+        <h1>Bienvenidos</h1>
+        <p>Inmobiliaria su Kza</p>
+        <input type="button" value="ver Clientes" onclick="location='AdministrarClientes.jsp'">
+        <input type="button" value="ver Departamentos" onclick="location='AdministrarDepartamento.jsp'">
+        <input type="button" value="ver Ciudades" onclick="location='AdministrarCiudades.jsp'">
+        <br><br>
+        </div>
         <jsp:include page="Fooder.html" flush="true" />
     </body>
 </html>

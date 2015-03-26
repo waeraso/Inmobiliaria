@@ -13,7 +13,7 @@
         <title>Agregar Departamento</title>
     </head>
     <body>
-         <form > 
+         <form action="ControladorDepartamento"> 
              <div align="center">
              <h1>Agregar Departamento</h1>
                 <table width="20%" border="0" align="center" cellpadding="3" cellspacing="0">
@@ -22,7 +22,7 @@
                         <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" size="20" maxlength="30"></td>
                     </tr>                                                            
                     <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Aceptar" />                          <input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar"/>                          <input type="reset" value="Cancelar" /></td>
                     </tr>
                 </table>
                 <p><span style="color: #F00">*campos requeridos</span>

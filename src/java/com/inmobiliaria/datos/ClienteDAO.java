@@ -152,7 +152,7 @@ public class ClienteDAO {
      */
     public int modificarCliente(int pCedula, Cliente pCliente) throws ClassNotFoundException, SQLException {
         int resultado = -1;
-        String sql = "UPDATE cliente SET nombres='" + pCliente.getNombre() + "', apellidos='" + pCliente.getApellidos() + "', email='" + pCliente.getEmail() + "', telefono='" + pCliente.getTelefono() + "'"
+        String sql = "UPDATE cliente SET nombre='" + pCliente.getNombre() + "', apellidos='" + pCliente.getApellidos() + "', email='" + pCliente.getEmail() + "', telefono='" + pCliente.getTelefono() + "'"
                 + "WHERE cedula='" + pCedula + "'";
         Connection miConexion = fachada.conectar();
         if (miConexion != null) {
@@ -162,10 +162,6 @@ public class ClienteDAO {
         }
         fachada.desconectar(miConexion);
         return resultado;
-    }
-
-    
-    
-    
+    }          
     
 }
