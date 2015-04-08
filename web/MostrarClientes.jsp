@@ -10,16 +10,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Clientes</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
     </head>
-    <body>
+    <body> 
         <jsp:include page="Header.html" flush="true" />
         <form id="formu" action="ControladorCliente">
             <input type ="hidden" name="val">
             
         <div align="center">
-        <h1>Lista Clientes</h1>          
+        <h2>Lista Clientes</h2>          
         
         <table border="1" id="tabla">
             <tr>
@@ -48,11 +47,10 @@
             </tr>            
         </c:forEach> 
         </table>
-        <input type="submit" value="Regresar" name="btn_regresar" onclick="javascript:window.history.back();"/>        
-       </div>
-        </form>        
+        <input type="submit" value="Regresar" name="btn_regresar" onclick="javascript:window.history.back();"/>
         <jsp:include page="Fooder.html" flush="true" />
-        
+       </div>
+        </form>                       
     </body>
     
     <script type="text/javascript">

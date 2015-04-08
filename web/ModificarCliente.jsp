@@ -23,7 +23,7 @@
                 <tbody>
                     <tr>
                         <td>Cedula de Ciudadania:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_cedula" type="text" autofocus="autofocus" required="required" value="<%=cliente.getCedula()%>" maxlength="10"/></td>
+                        <td><input name="txt_cedula" type="text" autofocus="autofocus" required="required" value="<%=cliente.getCedula()%>"/></td>                                                         
                     </tr>
                     <tr>
                         <td>Nombres:<span style="color: #F00">*</span></td>
@@ -42,7 +42,7 @@
                         <td><input name="txt_telefono" type="tel" autofocus="autofocus" required="required" value="<%=cliente.getTelefono()%>" maxlength="10" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Modificar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Modificar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" onclick="javascript:window.history.back();"/></td>
                     </tr>
                   </tbody>
             </table>

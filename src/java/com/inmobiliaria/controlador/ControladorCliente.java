@@ -48,6 +48,7 @@ public class ControladorCliente extends HttpServlet {
             
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
+            String url = "";
             
             if (operacion.equals("Agregar"))
             {
@@ -64,9 +65,11 @@ public class ControladorCliente extends HttpServlet {
                 inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
                 clientes.add(new Cliente(id, cedula, nombre, apellidos, email, telefono));
 
-                mensaje = "El Cliente fue registrado con éxito";
-
+                mensaje = inmobiliaria.getMensaje();    
+                url = "AgregarCliente.jsp";
+                               
                 session.setAttribute("mensaje", mensaje);
+                session.setAttribute("url", url);
 
                 response.sendRedirect("./Mensajes.jsp");
             }
@@ -91,16 +94,28 @@ public class ControladorCliente extends HttpServlet {
            
             clientes = inmobiliaria.buscarClientes(cedula, nombre);
             
-           session.setAttribute("clientes", clientes); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                     
-                                   
+            if(clientes != null){
+                session.setAttribute("clientes", clientes); //declarar variable de sesion
+                request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                                  
+            }
+            else{
+                mensaje = "El cliente no Existe";
+                url = "AdministrarClientes.jsp";
+                session.setAttribute("url", url);
+                
+                session.setAttribute("mensaje", mensaje);
+                response.sendRedirect("./Mensajes.jsp");
+            }                                                                                      
         }
         
         //llevar a pagina de modificar un clinte
+        int cedula =0;        
         if (operacion.equals("Editar"))
-        {
-            int cedula = Integer.parseInt(request.getParameter("val"));           
-            Cliente cliente = inmobiliaria.buscarCliente(cedula);
+        {            
+            cedula = Integer.parseInt(request.getParameter("val"));           
+            session.setAttribute("cedula", cedula);
+            
+            Cliente cliente = inmobiliaria.buscarCliente(cedula);                      
             if(cliente!=null){
                 request.setAttribute("cliente", cliente); //declarar variable de sesion
                 request.getRequestDispatcher("ModificarCliente.jsp").forward(request, response);                          
@@ -109,8 +124,9 @@ public class ControladorCliente extends HttpServlet {
         
         //modificar un cliente:
         if(operacion.equals("Modificar")){
-            //variables de campos de texto:                
-                int cedula = Integer.parseInt(request.getParameter("txt_cedula"));
+            //variables de campos de texto:                              
+                cedula = (int) session.getAttribute("cedula");
+                
                 String nombre = request.getParameter("txt_nombre");
                 String apellidos = request.getParameter("txt_apellidos");
                 String email = request.getParameter("txt_email");
@@ -119,16 +135,26 @@ public class ControladorCliente extends HttpServlet {
                 inmobiliaria.modificarCliente(cedula, nombre, apellidos, email, telefono);
                 
                 mensaje = "El Cliente fue modificado con éxito";
+                url = "AdministrarClientes.jsp";
+                
+                session.setAttribute("url", url);
                 session.setAttribute("mensaje", mensaje);
+                
                 response.sendRedirect("./Mensajes.jsp");                    
         }
         
         //eliminar cliente:
-        if(operacion.equals("Eliminar")){
-            int cedula = Integer.parseInt(request.getParameter("val"));           
+        if(operacion.equals("Eliminar")){            
+            cedula = Integer.parseInt(request.getParameter("val"));
+            
             inmobiliaria.eliminarCliente(cedula);    
             mensaje = "El Cliente fue eliminado con éxito";
+            
+            url = "AdministrarClientes.jsp";
+            
             session.setAttribute("mensaje", mensaje);
+            session.setAttribute("url", url);
+            
             response.sendRedirect("./Mensajes.jsp");
         }
             

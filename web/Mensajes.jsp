@@ -10,9 +10,11 @@
 <%
   Inmobiliaria inmobiliaria = (Inmobiliaria) session.getAttribute("inmobiliaria");
   
-  session.setAttribute("inmobiliaria", inmobiliaria);
+  session.setAttribute("inmobiliaria", inmobiliaria);  
   
   String mensaje = (String) session.getAttribute("mensaje");  
+  String url = (String) session.getAttribute("url"); 
+  url = "location='"+url+"'";
 %>
 <jsp:include page="Header.html" flush="true" />
 <html>
@@ -23,7 +25,8 @@
     <body>  
         <div align="center">
         <h2><%=mensaje %></h2>
-        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="location='index.jsp'"/>        
+        <!--<input type="submit" value="Aceptar" name="btn_aceptar" onclick="location='index.jsp'"/>        -->
+        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="<%=url%>"/>
         <jsp:include page="Fooder.html" flush="true" />
         </div>
     </body>

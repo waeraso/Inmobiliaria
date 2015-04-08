@@ -16,6 +16,20 @@
         <div align="center">
         <h1>Bienvenidos</h1>
         <p>Inmobiliaria su Kza</p>
+        
+        <div id="site_content">
+            <div class="container">						
+                <div class="12u">
+                    <div id="wrapper-banner">						
+                        <!-- Banner -->								
+                        <div id="banner">
+                            <a href="#"><img src="images/banner2.jpg" alt="banner image" /></a>
+                        </div>	
+                    </div>
+                </div>						
+            </div>
+        </div>    
+        
         <input type="button" value="ver Clientes" onclick="location='AdministrarClientes.jsp'">
         <input type="button" value="ver Departamentos" onclick="location='AdministrarDepartamento.jsp'">
         <input type="button" value="ver Ciudades" onclick="location='AdministrarCiudades.jsp'">

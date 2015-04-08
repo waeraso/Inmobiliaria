@@ -22,7 +22,7 @@
                         <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" size="20" maxlength="30"></td>
                     </tr>                                                            
                     <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar"/>                          <input type="reset" value="Cancelar" /></td>
+                        <td colspan="2" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar"/>                          <input type="reset" value="Limpiar" /></td>
                     </tr>
                 </table>
                 <p><span style="color: #F00">*campos requeridos</span>

@@ -49,6 +49,7 @@ public class ControladorCiudad extends HttpServlet {
             
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
+            String url = "";
             
             //agregar ciudad            
             if (operacion.equals("Agregar"))
@@ -63,7 +64,10 @@ public class ControladorCiudad extends HttpServlet {
                 inmobiliaria.adicionarCiudad(nombre, depto);
                 ciudades.add(new Ciudad(id,nombre,depto));
 
-                mensaje = "La Ciudad fue registrado con éxito";
+                mensaje = inmobiliaria.getMensaje();
+                url = "AgregarCiudad.jsp";
+                session.setAttribute("url", url);
+                
                 session.setAttribute("mensaje", mensaje);
                 response.sendRedirect("./Mensajes.jsp");
             }
@@ -76,30 +80,43 @@ public class ControladorCiudad extends HttpServlet {
          String nombreCiudad = (String) session.getAttribute("nombreCiudad");
         //buscar ciudad             
         if (operacion.equals("Buscar"))
-        {                  
-            nombreCiudad = request.getParameter("txt_nombre");                                
+        {                                        
+            nombreCiudad = request.getParameter("txt_nombre");            
+            
             Ciudad ciudad = null;
+            
             ciudad = inmobiliaria.buscarCiudad(nombreCiudad);            
-           
-            session.setAttribute("ciudad", ciudad); //declarar variable de sesion
-            session.setAttribute("nombreCiudad", nombreCiudad); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarCiudades.jsp").forward(request, response);                     
-                                   
+            if(ciudad!=null){
+                session.setAttribute("ciudad", ciudad); //declarar variable de sesion
+                session.setAttribute("nombreCiudad", nombreCiudad); //declarar variable de sesion            
+                request.getRequestDispatcher("./MostrarCiudades.jsp").forward(request, response);                
+            }
+            else {
+                mensaje = "La ciudad no Existe";
+                url = "AdministrarCiudades.jsp";
+                session.setAttribute("url", url);
+                
+                session.setAttribute("mensaje", mensaje);
+                response.sendRedirect("./Mensajes.jsp");                
+            }                                                                                             
         }
                     
         //modificar una ciudad:
         if(operacion.equals("Modificar")){
             //variables de campos de texto:                                
-                String nombre = request.getParameter("txt_nombre");
-                String depto = request.getParameter("txt_departamento");
+                String nombre = request.getParameter("txt_nombre");                
                 
                 Ciudad ciudad = inmobiliaria.buscarCiudad(nombreCiudad);
                 
                 int idCiudad = ciudad.getIdCiudad();
-                inmobiliaria.modificarCiudad(nombre, depto, nombreCiudad);
+                inmobiliaria.modificarCiudad(nombre, nombreCiudad);                
                 
-                mensaje = "La Ciudad fue modificada con éxito";
+                mensaje = inmobiliaria.getMensaje();
+                url = "AdministrarCiudades.jsp";
+                
+                session.setAttribute("url", url);                
                 session.setAttribute("mensaje", mensaje);
+                
                 response.sendRedirect("./Mensajes.jsp");                    
         }
         
@@ -107,10 +124,19 @@ public class ControladorCiudad extends HttpServlet {
         if(operacion.equals("Eliminar")){
             
             inmobiliaria.eliminarCiudad(nombreCiudad);
-            mensaje = "La Ciudad fue eliminada con éxito";
+            mensaje = inmobiliaria.getMensaje();
+            url = "AdministrarCiudades.jsp";
+            
+            session.setAttribute("url", url);            
             session.setAttribute("mensaje", mensaje);
             response.sendRedirect("./Mensajes.jsp");
         }
+        
+        //operacion volver de pagina mostrarCiudades
+        if(operacion.equals("Volver")){
+            response.sendRedirect("./AdministrarCiudades.jsp");                            
+        }
+        
         }
     }
 

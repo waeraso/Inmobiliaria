@@ -28,10 +28,10 @@
                         <td><input type="text" name="txt_nombre" value="" /></td>
                     </tr>                    
                     <tr>
-                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar" />                          <input type="reset" value="Cancelar" name="btn_cancelar" /></td>
+                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar" />                          <input type="reset" value="Limpiar" name="btn_cancelar" /></td>
                     </tr>                
                 </tbody>
-            </table>                                                                         
+            </table>                                               
               </div>
         </form>
         <jsp:include page="Fooder.html" flush="true" />

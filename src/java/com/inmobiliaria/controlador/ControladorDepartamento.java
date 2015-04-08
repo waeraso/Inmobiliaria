@@ -48,6 +48,7 @@ public class ControladorDepartamento extends HttpServlet {
             
             String operacion =  request.getParameter("btn_aceptar");            
             String mensaje = "";
+            String url = "";
             
             //agregar departamento            
             if (operacion.equals("Agregar"))
@@ -61,7 +62,10 @@ public class ControladorDepartamento extends HttpServlet {
                 inmobiliaria.adicionarDepartamento(nombre);
                 departamentos.add(new Departamento(id,nombre));
 
-                mensaje = "El Departamento fue registrado con éxito";
+                mensaje = inmobiliaria.getMensaje();
+                url = "AgregarDepartamento.jsp";
+                
+                session.setAttribute("url", url);
                 session.setAttribute("mensaje", mensaje);
                 response.sendRedirect("./Mensajes.jsp");
             }
@@ -78,10 +82,19 @@ public class ControladorDepartamento extends HttpServlet {
             Departamento departamento = null;
             departamento = inmobiliaria.buscarDepartamento(nombreDepto);
             
-           session.setAttribute("nombreDepto", nombreDepto); //declarar variable de sesion
-            session.setAttribute("departamento", departamento); //declarar variable de sesion
-           request.getRequestDispatcher("./MostrarDepartamentos.jsp").forward(request, response);                     
-                                   
+            if(departamento!=null){
+                session.setAttribute("nombreDepto", nombreDepto); //declarar variable de sesion
+                session.setAttribute("departamento", departamento); //declarar variable de sesion
+                request.getRequestDispatcher("./MostrarDepartamentos.jsp").forward(request, response);                                     
+            }
+            else{
+                mensaje = "El Departamento no Existe";
+                url = "AdministrarDepartamento.jsp";
+                session.setAttribute("url", url);
+                
+                session.setAttribute("mensaje", mensaje);
+                response.sendRedirect("./Mensajes.jsp"); 
+            }                                                         
         }
                      
         //modificar un departamento:
@@ -94,7 +107,10 @@ public class ControladorDepartamento extends HttpServlet {
                 int idDep = depto.getIdDepartamento();
                 inmobiliaria.modificarDepartamento(idDep, nombre, nombreDepto);
                 
-                mensaje = "El departamento fue modificado con éxito";
+                mensaje = inmobiliaria.getMensaje();
+                url = "AdministrarDepartamento.jsp";
+                
+                session.setAttribute("url", url);                
                 session.setAttribute("mensaje", mensaje);
                 response.sendRedirect("./Mensajes.jsp");                    
         }
@@ -103,10 +119,21 @@ public class ControladorDepartamento extends HttpServlet {
         if(operacion.equals("Eliminar")){
             
             inmobiliaria.eliminarDepartamento(nombreDepto);
-            mensaje = "El Departamento fue eliminado con éxito";
+           
+            mensaje = inmobiliaria.getMensaje();
+            url = "AdministrarDepartamento.jsp";
+                
+            session.setAttribute("url", url);                 
             session.setAttribute("mensaje", mensaje);
+            
             response.sendRedirect("./Mensajes.jsp");
         }
+        
+        //operacion volver de pagina mostrarDeptos
+        if(operacion.equals("Volver")){
+            response.sendRedirect("./AdministrarDepartamento.jsp");                            
+        }
+        
         }
     }
 

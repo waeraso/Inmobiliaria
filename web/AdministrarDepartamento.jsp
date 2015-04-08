@@ -20,7 +20,7 @@
                 <table border="0" align="center" cellpadding="0" cellspacing="0">
                     <tr>
                         <td>Nombre: </td>
-                        <td><input type="text" name="txt_nombre" size="20" maxlength="30"></td>
+                        <td><input type="text" name="txt_nombre" size="20" required maxlength="30"></td>
                     </tr>                                                                              
                     <tr>
                         <td colspan="2" style="text-align: center"><input type="submit" value="Buscar" name="btn_aceptar"/>                          <input type="reset" value="Cancelar" /></td>

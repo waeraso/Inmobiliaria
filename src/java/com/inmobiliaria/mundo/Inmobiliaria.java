@@ -42,6 +42,9 @@ public class Inmobiliaria {
 
     //objeto de DepartamentoDAO 
     private DepartamentoDAO departamentoDAO;
+    
+    //mensajes que se generan en el manejo de la clase cliente
+    String mensaje;
 
     //constructor de clase inmobiliaria para inicializar las listas de clientes, ciudades, departamentos
     public Inmobiliaria() {
@@ -70,6 +73,17 @@ public class Inmobiliaria {
 
         return objeto;
     }
+
+    //dar mensajes de la clase cliente
+    public String getMensaje() {
+        return mensaje;
+    }
+    
+    //establecer mensaje de la clase cliente
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }  
+    
 
     //obtener lista de clientes
     public ArrayList<Cliente> getClientes() {
@@ -108,8 +122,9 @@ public class Inmobiliaria {
             Departamento dept = new Departamento(id, pNom);
             departamentoDAO.agregarDepartamento(dept);
             departamentos.add(dept);
+            setMensaje("El Departamento se adicionó con Exito");            
         }
-
+        else setMensaje("¡Error! El Departamento ya existe");            
     }
 
     //metodo de modificar un departamento recibiendo como parametro nombre
@@ -117,20 +132,21 @@ public class Inmobiliaria {
         try{
         Departamento dept = buscarDepartamento(pNomAnterior);
         if (dept != null) {
-            dept = buscarDepartamento(pNom);
-            if (dept == null) {
+            Departamento pDept = buscarDepartamento(pNom);
+            if (pDept == null) {
+                dept.setNombre(pNom);
                departamentoDAO.modificarDepartamento(pId, pNom);
+               setMensaje("El Departamento se modficó con Exito");            
             } else {
-                //throw new Exception("Ya existe departamento con el nombre ingresado");
+                setMensaje("¡Error! El Departamento ya existe");                            
             }
         } else {
-            //throw new Exception("No se encuentra el departamento registrada");
+            setMensaje("El Departamento se no existe");                        
         }
         }
         catch(Exception e){
-            
+            setMensaje(e.getMessage());                        
         }
-
     }
 
     //metodo buscar un departamento recibiendo el idDep como parametro
@@ -143,29 +159,31 @@ public class Inmobiliaria {
                 dept = departamentos.get(i);
                 encontrado = true;
             }
-
         }
         return dept;
-
     }
 
     //metodo eliminar un departamento recibiendo el idDep como parametro
-    public void eliminarDepartamento(String pNom){
-        
+    public void eliminarDepartamento(String pNom){        
         try{
-
-        Departamento dept = buscarDepartamento(pNom);
-        if (dept != null) {
-            departamentoDAO.eliminarDepartamento(dept);
-            departamentos.remove(dept);
-        } else {
-            throw new Exception("El Departamento no se encuentra registrado.");
-        }
+            Departamento dept = buscarDepartamento(pNom);
+            if (dept != null) {
+                Ciudad pCiudad = buscarCiudadxDepto(pNom);
+                if(pCiudad!=null){
+                    setMensaje("¡Error! El departamento no se puede eliminar porque tiene una ciudad registrada");                     
+                }
+                else{             
+                    departamentoDAO.eliminarDepartamento(dept);
+                    departamentos.remove(dept);
+                    setMensaje("El Departamento se eliminó con Exito"); 
+                }
+            } else {
+                setMensaje("¡Error! El Departamento no existe");            
+            }
         }
         catch(Exception e){
-            
+            setMensaje(e.getMessage());                                    
         }
-
     }
 
     //metodo para adicionar una recibiendo como parametro el id, el nombre y el departamento al que pertenece
@@ -177,33 +195,35 @@ public class Inmobiliaria {
                 ciudad = new Ciudad(id,pNom, pDep);
                 ciudadDAO.agregarCiudad(ciudad);
                 ciudades.add(ciudad);
+                setMensaje("La Ciudad se adicionó con Exito");
             }
             else{
-                throw new Exception("La ciudad con nombre: " + pNom + " ya se encuentra registrada.");                
+                setMensaje("¡Error! La Ciudad ya se encuentra registrada");
             }
         } catch (Exception e) {
-            throw new Exception(e);
+            setMensaje(e.getMessage());
         }
-
     }
 
     //metodo de modificar una Ciudad recibiendo como parametro id, nombre y el departamento al que pertenece
-    public void modificarCiudad(String pNom, String pDep, String pNomAnterior){
+    public void modificarCiudad(String pNom, String pNomAnterior){
         try{
         Ciudad ciudad = buscarCiudad(pNomAnterior);
         if (ciudad != null) {
-            ciudad = buscarCiudad(pNom);
-            if (ciudad == null) {                
+           Ciudad pCiudad = buscarCiudad(pNom);
+            if (pCiudad == null) {  
+                ciudad.setNombre(pNom);
                 ciudadDAO.modificarCiudad(pNom, pNomAnterior);
+                setMensaje("La ciudad se modificó correctamente");                            
             } else {
-                throw new Exception("La ciudad con el nombre ingresado ya existe");
+                setMensaje("¡Error! La ciudad con el nombre ingresado ya existe");                
             }
         } else {
-            throw new Exception("La ciudad ingresada no se encuentra");
+            setMensaje("La ciudad ingresada no se encuentra");                            
         }
         }
-        catch(Exception e){            
-            
+        catch(Exception e){   
+            setMensaje(e.getMessage());            
         }
     }
 
@@ -219,6 +239,21 @@ public class Inmobiliaria {
         }
         return ciudad;
     }
+    
+    //metodo buscar una ciudad por depto
+    public Ciudad buscarCiudadxDepto(String pNombre){
+        Ciudad ciudad = null;
+        boolean encontrado = false;
+        for (int i = 0; i < ciudades.size() && !encontrado; i++) {
+            if (ciudades.get(i).getDepartamento().equals(pNombre)) {
+                ciudad = ciudades.get(i);
+                encontrado = true;
+            }
+        }
+        return ciudad;
+    }
+    
+    
 
     //metodo eliminar una ciudad recibiendo el idCiudad como parametro
     public void eliminarCiudad(String pNombre){
@@ -227,12 +262,13 @@ public class Inmobiliaria {
         if (ciudad != null) {
             ciudadDAO.eliminarCiudad(ciudad);
             ciudades.remove(ciudad);
+            setMensaje("La ciudad se eliminó correctamente");                            
         } else {
-            throw new Exception("No se encuentra la ciudad registrada");
+            setMensaje("¡Error! La ciudad ingresada no se encuentra");                                        
         }
         }
         catch(Exception e){
-            
+            setMensaje(e.getMessage());                                        
         }
     }
 
@@ -244,9 +280,13 @@ public class Inmobiliaria {
                 cliente = new Cliente(pId, pCedula, pNom, pApell, pEmail, pTel);
                 clienteDAO.guardarCliente(cliente);
                 clientes.add(cliente);
+                setMensaje("El cliente se adicionó con Exito");
             }
-        } catch (Exception e) {
-            out.println(e.getMessage());
+            else{
+                setMensaje("¡Error!, el cliente ya existe");
+            }
+        } catch (Exception e) {            
+            setMensaje(e.getMessage());
         }
     }
 
@@ -266,7 +306,7 @@ public class Inmobiliaria {
             }
 
         } else {
-            //throw new Exception("El cliente no se encuentra registrado");
+            setMensaje("¡Error!, el cliente no existe");
         }
     }
 
@@ -307,10 +347,20 @@ public class Inmobiliaria {
             for (int i = 0; i < clientes.size(); i++) {
                 if (clientes.get(i).getNombre().equals(pNom)) {
                     Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(), clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());
-                    misClientes.add(miCliente);                    
+                    misClientes.add(miCliente);  
+                    encontrado = true;
                 }
             }
         }
+        else{
+            for (int i = 0; i < clientes.size(); i++) {                
+                    Cliente miCliente = new Cliente(clientes.get(i).getIdCliente(), clientes.get(i).getCedula(), clientes.get(i).getNombre(), clientes.get(i).getApellidos(), clientes.get(i).getEmail(), clientes.get(i).getTelefono());
+                    misClientes.add(miCliente);                    
+            }            
+            encontrado = true;
+        }
+        
+        if(encontrado==false) misClientes = null;
         return misClientes;
     }
 
