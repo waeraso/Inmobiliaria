@@ -8,7 +8,6 @@ package com.inmobiliaria.mundo;
 import com.inmobiliaria.datos.CiudadDAO;
 import com.inmobiliaria.datos.ClienteDAO;
 import com.inmobiliaria.datos.DepartamentoDAO;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -38,6 +37,11 @@ public class Inmobiliaria {
      * Lista de los departamentos que pertenecen a la inmobiliaria
      */
     private ArrayList<Categoria> categorias;
+    
+    /**
+     * Lista de los inmuebles que pertenecen a la inmobiliaria
+     */
+    private ArrayList<Inmueble> inmuebles;
 
     //objeto de ClienteDAO 
     private ClienteDAO clienteDAO;
@@ -405,6 +409,7 @@ public class Inmobiliaria {
         else setMensaje("¡Error! La Categoria ya existe");            
     }
     
+    //buscar categoria enviando como parametro la descripcion
     public Categoria buscarCategoria(String pDesc) {
         Categoria categoria = null;
         boolean encontrado = false;
@@ -448,6 +453,71 @@ public class Inmobiliaria {
             //throw new Exception("El cliente no se encuentra Registrado");
         }
     }
+    
+    //metodo para adicionar un Inmueble recibiendo como parametro..
+    public void adicionarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pTamano, int pPrecio, String pImagen ) throws Exception {
+        if (buscarInmuebles(pBarrio, pDir, pTipo) == null) {
+            int id =0;
+            Inmueble nInmueble = new Inmueble(id, pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);
+            
+            //inmuebleDAO.agregarInmueble(pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);
+            inmuebles.add(nInmueble);            
+            setMensaje("El inmueble se adicionó con Exito");            
+        }
+        else setMensaje("¡Error! El inmueble ya existe");            
+    }
+    
+    //buscar inmueble enviando como parametro barrio, dir, tipo
+    public ArrayList<Inmueble> buscarInmuebles(String pBarrio, String pDir, String pTipo) {
+        ArrayList<Inmueble> misInmuebles = new ArrayList<Inmueble>();
+        Inmueble miInmueble = null;
+        //misInmuebles = inmuebleDAO.buscarInmuebles(pBarrio, pDir, pTipo);
+        return misInmuebles;
+    }
+    
+    //metodo para modficar un inmueble enviando como parametro..
+    public void modificarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pTamano, int pPrecio, String pImagen){
+        ArrayList<Inmueble> misInmuebles = buscarInmuebles(pBarrio, pDir, pTipo);
+        
+        if (misInmuebles != null) {
+            try {                 
+                    misInmuebles.get(0).setBarrio(pBarrio);
+                    misInmuebles.get(0).setDireccion(pDir);
+                    misInmuebles.get(0).setTelefono(pTel);
+                    misInmuebles.get(0).setTipo(pTipo);
+                    misInmuebles.get(0).setTamanio(pTamano);
+                    misInmuebles.get(0).setPrecio(pPrecio);
+                    misInmuebles.get(0).setImagen(pImagen);                                                       
+                    //inmuebleDAO.modificarInmueble(pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);                
+            } catch (Exception e) {
+                //("inmueble ya existe");
+            }
+
+        } else {
+            setMensaje("¡Error!, El inmueble no existe");
+        }
+    }
+    
+    //metodo eliminar una categoria recibiendo la descripcion
+    public void eliminarInmueble(String pBarrio, String pDir, String pTipo){
+        ArrayList<Inmueble> misInmuebles = buscarInmuebles(pBarrio, pDir, pTipo);
+        Inmueble inmueble = null;
+        
+        if (misInmuebles != null) {            
+            try{                 
+                inmueble = misInmuebles.get(0);                
+                inmuebles.remove(inmueble);
+                //inmuebleDAO.eliminarInmueble();            
+            }
+            catch(Exception e){
+                
+            }
+        } else {
+            //throw new Exception("El cliente no se encuentra Registrado");
+        }
+    }
+    
+    
     
     
 }

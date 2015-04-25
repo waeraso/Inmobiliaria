@@ -23,12 +23,8 @@
             <form role="form" action="ControladorInmueble">
                 
                 <h2>Buscar Inmuebles</h2>
-                <hr class="colorgraph"> 
-                
-                <div class="form-group">
-                    <input type="number" name="txt_id" class="form-control input-lg" placeholder="Id Inmueble" tabindex="1">
-		</div>
-            
+                <hr class="colorgraph">                 
+                            
                 <div class="form-group">
                     <input type="text" name="txt_barrio" class="form-control input-lg" placeholder="Barrio" tabindex="1">
 		</div>
