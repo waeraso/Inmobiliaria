@@ -33,6 +33,11 @@ public class Inmobiliaria {
      * Lista de los departamentos que pertenecen a la inmobiliaria
      */
     private ArrayList<Departamento> departamentos;
+    
+    /**
+     * Lista de los departamentos que pertenecen a la inmobiliaria
+     */
+    private ArrayList<Categoria> categorias;
 
     //objeto de ClienteDAO 
     private ClienteDAO clienteDAO;
@@ -109,6 +114,14 @@ public class Inmobiliaria {
     public ArrayList<Departamento> getDepartamentos() {
         return departamentos;
     }
+
+    public ArrayList<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(ArrayList<Categoria> categorias) {
+        this.categorias = categorias;
+    }      
 
     //cambiar lista de departamentos recibiendo los nuevos datos como parametro
     public void setDepartamentos(ArrayList<Departamento> departamentos) {
@@ -379,4 +392,62 @@ public class Inmobiliaria {
             //throw new Exception("El cliente no se encuentra Registrado");
         }
     }
+    
+    //metodo para adicionar una categoria recibiendo como parametro la descripcion
+    public void adicionarCategoria(String pDesc) throws Exception {
+        if (buscarCategoria(pDesc) == null) {
+            int id =0;
+            Categoria miCategoria = new Categoria(id, pDesc);
+            //categoriaDAO.agregarCategoria(pDesc);
+            categorias.add(miCategoria);            
+            setMensaje("La categoria se adicionó con Exito");            
+        }
+        else setMensaje("¡Error! La Categoria ya existe");            
+    }
+    
+    public Categoria buscarCategoria(String pDesc) {
+        Categoria categoria = null;
+        boolean encontrado = false;
+        for (int i = 0; i < categorias.size() && !encontrado; i++) {
+            if (categorias.get(i).getDescripcion().equals(pDesc)) {
+                categoria = categorias.get(i);
+                encontrado = true;
+            }
+        }
+        return categoria;
+    }
+    
+    //metodo para modficar una categoria como parametro la descripcion
+    public void modificarCategoria(String pDesc, String NuevaDesc){
+        Categoria categoria = buscarCategoria(pDesc);        
+        if (categoria != null) {
+            try {
+                categoria.setDescripcion(NuevaDesc);              
+                //categoriaDAO.modificarCategoria(pDesc);                
+            } catch (Exception e) {
+                //("categoria ya existe");
+            }
+
+        } else {
+            setMensaje("¡Error!, la categoria no existe");
+        }
+    }
+    
+    //metodo eliminar una categoria recibiendo la descripcion
+    public void eliminarCategoria(String pDesc){
+        Categoria categoria = buscarCategoria(pDesc);        
+        if (categoria != null) {            
+            try{
+                //categoriaDAO.eliminarCategoria(categoria);            
+                categorias.remove(categoria);
+            }
+            catch(Exception e){
+                
+            }
+        } else {
+            //throw new Exception("El cliente no se encuentra Registrado");
+        }
+    }
+    
+    
 }
