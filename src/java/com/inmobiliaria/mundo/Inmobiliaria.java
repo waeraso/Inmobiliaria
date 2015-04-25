@@ -480,7 +480,8 @@ public class Inmobiliaria {
         ArrayList<Inmueble> misInmuebles = buscarInmuebles(pBarrio, pDir, pTipo);
         
         if (misInmuebles != null) {
-            try {                 
+            try {
+                   int pId = misInmuebles.get(0).getIdInmueble();
                     misInmuebles.get(0).setBarrio(pBarrio);
                     misInmuebles.get(0).setDireccion(pDir);
                     misInmuebles.get(0).setTelefono(pTel);
@@ -488,7 +489,7 @@ public class Inmobiliaria {
                     misInmuebles.get(0).setTamanio(pTamano);
                     misInmuebles.get(0).setPrecio(pPrecio);
                     misInmuebles.get(0).setImagen(pImagen);                                                       
-                    //inmuebleDAO.modificarInmueble(pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);                
+                    //inmuebleDAO.modificarInmueble(pId, pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);                
             } catch (Exception e) {
                 //("inmueble ya existe");
             }
@@ -507,7 +508,7 @@ public class Inmobiliaria {
             try{                 
                 inmueble = misInmuebles.get(0);                
                 inmuebles.remove(inmueble);
-                //inmuebleDAO.eliminarInmueble();            
+                //inmuebleDAO.eliminarInmueble(inmueble);            
             }
             catch(Exception e){
                 
