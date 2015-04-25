@@ -6,29 +6,28 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<jsp:include page="Header.html" flush="true" />
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Agregar Departamento</title>
     </head>
     <body>
-         <form action="ControladorDepartamento"> 
-             <div align="center">
-             <h1>Agregar Departamento</h1>
-                <table width="20%" border="0" align="center" cellpadding="3" cellspacing="0">
-                    <tr>
-                        <td>Nombre:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" size="20" maxlength="30"></td>
-                    </tr>                                                            
-                    <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar"/>                          <input type="reset" value="Limpiar" /></td>
-                    </tr>
-                </table>
-                <p><span style="color: #F00">*campos requeridos</span>
-                </p>
-             </div>
+ <jsp:include page="Header.html" flush="true" />
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <form role="form" action="ControladorDepartamento">             
+                <h2>Agregar Departamento <small>Todos los Campos Requeridos</small></h2>
+                <hr class="colorgraph">                                
+                
+		<div class="form-group">
+                    <input type="text" name="txt_nombre" required="required" class="form-control input-lg" placeholder="Nombre" maxlength="30" tabindex="3">
+		</div>               				
+                
+		<hr class="colorgraph">
+		<div class="row">
+                    <div class="col-xs-6 col-md-6"><input type="submit" value="Agregar" name="btn_aceptar" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
+                    <div class="col-xs-6 col-md-6"><input type="reset" value="Limpiar" name="btn_cancelar" class="btn btn-danger btn-block btn-lg"/></div>
+		</div>                               
         </form>
-        <jsp:include page="Fooder.html" flush="true" />
+      </div>   
     </body>
 </html>

@@ -15,50 +15,57 @@
     session.setAttribute("inmobiliaria", inmobiliaria);
 %>
 
-<jsp:include page="Header.html" flush="true" />
+
 <html>
-    <head>
+    <head>        
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>     
+               
         <title>Agregar Cliente</title>
     </head>
     <body>
-        <form action="ControladorCliente">
-            <div align="center">
-                <h1>
-                    Agregar Cliente
-                </h1>
-                <table border="0">
+        <jsp:include page="Header.html" flush="true" />
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <form role="form" action="ControladorCliente">             
+                <h2>Agregar Cliente <small>Todos los Campos Requeridos</small></h2>
+                <hr class="colorgraph">                
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+			<div class="form-group">
+                            <input type="text" name="txt_nombre" required="required" class="form-control input-lg" placeholder="Nombre" tabindex="1">
+			</div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="txt_apellidos"  required="required" class="form-control input-lg" placeholder="Apellidos" tabindex="2">
+                        </div>
+                    </div>
+		</div>
                 
-                <tbody>
-                    <tr>
-                        <td>Cedula de Ciudadania:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_cedula" type="number" autofocus="autofocus" required="required" min="1" max="9999999999"/></td>
-                    </tr>
-                    <tr>
-                        <td>Nombres:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_nombre" type="text" autofocus="autofocus" required="required" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Apellidos:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_apellidos" type="text" autofocus="autofocus" required="required" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Email:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_email" type="email" autofocus="autofocus" required="required" value="" /></td>
-                    </tr>                    
-                    <tr>
-                        <td>Telefono:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_telefono" type="number" autofocus="autofocus" required="required" min="1" max="9999999999" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="right" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar" />                          <input type="reset" value="Limpiar" name="btn_cancelar" /></td>
-                    </tr>
-                  </tbody>
-            </table>
-                <h4><span style="color: #F00">*campos requeridos</span></h4>
-            </div>
+		<div class="form-group">
+                    <input type="number" name="txt_cedula" min="1" max="9999999999" required="required" class="form-control input-lg" placeholder="Cedula" tabindex="3">
+		</div>
+                
+		<div class="form-group">
+                    <input type="email" name="txt_email" required="required" class="form-control input-lg" placeholder="Email" tabindex="4">
+		</div>
+                
+                <div class="form-group">
+                    <input type="number" name="txt_telefono" min="1" max="9999999999" required="required" class="form-control input-lg" placeholder="Telefono" tabindex="4">
+		</div>
+		
+                
+		<hr class="colorgraph">
+		<div class="row">
+                    <div class="col-xs-6 col-md-6"><input type="submit" value="Agregar" name="btn_aceptar" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
+                    <div class="col-xs-6 col-md-6"><input type="reset" value="Limpiar" name="btn_cancelar" class="btn btn-danger btn-block btn-lg"/></div>
+		</div>                               
         </form>
-        <jsp:include page="Fooder.html" flush="true" />
-    </body>
+      </div>    
+    </body>    
 </html>

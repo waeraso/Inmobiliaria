@@ -13,29 +13,32 @@
     </head>
     <body>       
         <jsp:include page="Header.html" flush="true" />
-        <form action="ControladorCiudad"> 
-             <div align="center">
-             <h1>Mostrar Ciudad</h1>
-             <h2>Modificar o Eliminar Ciudad</h2>
-             
-                <jsp:useBean id="ciudad" scope="session" class="com.inmobiliaria.mundo.Ciudad"/>        
-             
-                <table width="25%" border="0" align="center" cellpadding="7" cellspacing="0">
-                    <tr>
-                        <td>Nombre:<span style="color: #F00">*</span></td>
-                        <td><input type="text" name="txt_nombre" size="20" maxlength="30" required="required" value="<%=ciudad.getNombre()%>"></td>
-                    </tr>                                                            
-                    <tr>
-                        <td>Departamento:<span style="color: #F00">*</span></td>
-                        <td><input type="text" name="txt_departamento" value="<%=ciudad.getDepartamento()%>" disabled size="20" maxlength="30"></td>                        
-                    </tr>
-                    <td colspan="2" style="text-align: center"><input type="submit" value="Modificar" name="btn_aceptar"/> <input type="submit" value="Eliminar" name="btn_aceptar"/>                          <input type="submit" value="Volver" name="btn_aceptar" /></td>
-                    </tr>
-                </table>
-                <p><span style="color: #F00">*campos requeridos</span>
-                </p>
-             </div>
-        </form>
-        <jsp:include page="Fooder.html" flush="true" />
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form role="form" action="ControladorCiudad"> 
+                <h2>Datos de la Ciudad <small>Modificar o Eliminar</small></h2>
+                    <jsp:useBean id="ciudad" scope="session" class="com.inmobiliaria.mundo.Ciudad"/>        
+                <hr class="colorgraph">             
+                
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+			<div class="form-group">
+                            <label for="txt_nombre">Nombre:</label>
+                            <input type="text" name="txt_nombre" required="required" maxlength="30" class="form-control input-lg" value="<%=ciudad.getNombre()%>" tabindex="1">
+			</div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <label for="txt_departamento">Departamento:</label>
+                        <input type="text" name="txt_departamento" disabled  value="<%=ciudad.getDepartamento()%>" class="form-control input-lg" value="<%=ciudad.getNombre()%>" tabindex="1">                                                 
+                    </div>
+		</div>	
+                                                
+		<hr class="colorgraph">
+		<div class="row">
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Modificar" name="btn_aceptar" class="btn btn-success btn-block btn-ms" tabindex="7"></div>
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Eliminar" name="btn_aceptar" class="btn btn-danger btn-block btn-ms"/></div>                    
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Volver" name="btn_aceptar" class="btn btn-primary btn-block btn-ms"/></div>
+		</div>                                   
+            </form>
+        </div>              
     </body>
 </html>

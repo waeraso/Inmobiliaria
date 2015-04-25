@@ -21,38 +21,50 @@
     session.setAttribute("departamentos", departamentos);
 %>
 
-<jsp:include page="Header.html" flush="true" />
-
 <html>
     <head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Agregar Ciudad</title>
     </head>
     <body>
-        <form action="ControladorCiudad"> 
-             <div align="center">
-             <h1>Agregar Ciudad</h1>
-                <table width="25%" border="0" align="center" cellpadding="7" cellspacing="0">
-                    <tr>
-                        <td>Nombre:<span style="color: #F00">*</span></td>
-                        <td><input type="text" name="txt_nombre" size="20" required="required" maxlength="30"></td>
-                    </tr>                                                            
-                    <tr>
-                        <td>Departamento:<span style="color: #F00">*</span></td>
-                        <td><select name="dpd_departamento">
-                                <c:forEach var="departamento" items="${sessionScope.departamentos}">
+        <jsp:include page="Header.html" flush="true" />
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form role="form" action="ControladorCiudad"> 
+                <h2>Agregar Ciudad <small>Todos los Campos Requeridos</small></h2>
+                <hr class="colorgraph">             
+                
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+			<div class="form-group">
+                            <label for="txt_nombre">Nombre:</label>
+                            <input type="text" name="txt_nombre" required="required" maxlength="30" class="form-control input-lg" placeholder="Nombre" tabindex="1">
+			</div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <label for="dpd_departamento">Departamento:</label>
+                        <select class="form-control" name="dpd_departamento">                                                  
+                            <c:forEach var="departamento" items="${sessionScope.departamentos}">
                                     <option>${departamento.nombre} </option>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                    <td colspan="2" style="text-align: center"><input type="submit" value="Agregar" name="btn_aceptar"/>                          <input type="reset" value="Limpiar" /></td>
-                    </tr>
-                </table>
-                <p><span style="color: #F00">*campos requeridos</span>
-                </p>
-             </div>
-        </form>
-        <jsp:include page="Fooder.html" flush="true" />
-    </body>
+                            </c:forEach>
+                        </select>                                                   
+                    </div>
+		</div>	
+                                                
+		<hr class="colorgraph">
+		<div class="row">
+                    <div class="col-xs-6 col-md-6"><input type="submit" value="Agregar" name="btn_aceptar" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
+                    <div class="col-xs-6 col-md-6"><input type="reset" value="Limpiar" name="btn_cancelar" class="btn btn-danger btn-block btn-lg"/></div>
+		</div>                   
+            </form>
+        </div>                               
+    </body>        
 </html>

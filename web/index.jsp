@@ -28,11 +28,7 @@
                     </div>
                 </div>						
             </div>
-        </div>    
-        
-        <input type="button" value="ver Clientes" onclick="location='AdministrarClientes.jsp'">
-        <input type="button" value="ver Departamentos" onclick="location='AdministrarDepartamento.jsp'">
-        <input type="button" value="ver Ciudades" onclick="location='AdministrarCiudades.jsp'">
+        </div>                   
         <br><br>
         </div>
         <jsp:include page="Fooder.html" flush="true" />

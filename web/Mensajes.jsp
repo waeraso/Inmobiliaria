@@ -24,10 +24,10 @@
     </head>
     <body>  
         <div align="center">
-        <h2><%=mensaje %></h2>
+            <br/><br/>
+        <h1><%=mensaje %></h1>
         <!--<input type="submit" value="Aceptar" name="btn_aceptar" onclick="location='index.jsp'"/>        -->
-        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="<%=url%>"/>
-        <jsp:include page="Fooder.html" flush="true" />
+        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="<%=url%>"/>        
         </div>
     </body>
 </html>

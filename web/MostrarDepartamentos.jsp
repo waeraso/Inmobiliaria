@@ -10,31 +10,34 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
         <title>Mostrar Departamento</title>
     </head>
     <body>        
         <jsp:include page="Header.html" flush="true" />
-        <form action="ControladorDepartamento">
-            <div align="center">
-             <h1>Datos Departamento</h1>
-             <h2>Modifique o Elimine el Departamento</h2>
-             
-                <jsp:useBean id="departamento" scope="session" class="com.inmobiliaria.mundo.Departamento"/>        
+        
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <form role="form" action="ControladorDepartamento">             
+                <h2>Datos Departamento <small>Modificar o Eliminar</small></h2>
+                                <jsp:useBean id="departamento" scope="session" class="com.inmobiliaria.mundo.Departamento"/>        
+                <hr class="colorgraph">                                
                 
-                <table width="20%" border="0" align="center" cellpadding="3" cellspacing="0">
-                    <tr>
-                        <td>Nombre:<span style="color: #F00">*</span></td>
-                        <td><input name="txt_nombre" type="text" autofocus="autofocus" value="<%=departamento.getNombre()%>" required="required" size="20" maxlength="30"></td>
-                    </tr>                                                            
-                    <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Modificar" name="btn_aceptar"/> <input type="submit" value="Eliminar" name="btn_aceptar"/>                         <input type="submit" value="Volver" name="btn_aceptar"/></td>
-                    </tr>
-                </table>
-                <p><span style="color: #F00">*campos requeridos</span>
-                </p>
-             </div>
-            
-        </form>        
-        <jsp:include page="Fooder.html" flush="true" />
+		<div class="form-group">
+                    <input type="text" name="txt_nombre" required="required" class="form-control input-lg"  value="<%=departamento.getNombre()%>" maxlength="30" tabindex="3"/>
+		</div>               				
+                
+		<hr class="colorgraph">
+		<div class="row">
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Modificar" name="btn_aceptar" class="btn btn-success btn-block btn-ms" tabindex="7"></div>
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Eliminar" name="btn_aceptar" class="btn btn-danger btn-block btn-ms"/></div>                    
+                    <div class="col-xs-6 col-md-4"><input type="submit" value="Volver" name="btn_aceptar" class="btn btn-primary btn-block btn-ms"/></div>
+		</div>                               
+        </form>
+      </div>   
     </body>
 </html>
