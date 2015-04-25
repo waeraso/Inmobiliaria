@@ -135,7 +135,7 @@ public class CategoriaDAO {
      */
     public int eliminarCiudad(Categoria pCategoria) throws ClassNotFoundException, SQLException{
         int resultado = -1;
-        String sql = "DELETE FROM ciudad WHERE nombre='"+pCategoria.getDescripcion()+"'";
+        String sql = "DELETE FROM categoria WHERE nombre='"+pCategoria.getDescripcion()+"'";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {
