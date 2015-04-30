@@ -16,18 +16,34 @@
   String url = (String) session.getAttribute("url"); 
   url = "location='"+url+"'";
 %>
-<jsp:include page="Header.html" flush="true" />
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
         <title>resultados</title>
     </head>
-    <body>  
-        <div align="center">
-            <br/><br/>
-        <h1><%=mensaje %></h1>
-        <!--<input type="submit" value="Aceptar" name="btn_aceptar" onclick="location='index.jsp'"/>        -->
-        <input type="submit" value="Aceptar" name="btn_aceptar" onclick="<%=url%>"/>        
-        </div>
+    <body> 
+        <jsp:include page="Header.html" flush="true" />
+        <br/><br/>
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Mensajes Inmobiliaria su Kza</h3>
+                </div>
+            <div class="panel-body">
+                <h2 align="center" ><%=mensaje %></h2>
+                <div class="col-sm-12 col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+                    <input type="submit" value="Aceptar" name="btn_aceptar" onclick="<%=url%>" class="btn btn-success btn-block btn-lg"/>        
+                </div>
+            </div>
+
+            </div>
+        </div>      
     </body>
 </html>

@@ -5,7 +5,7 @@
  */
 package com.inmobiliaria.controlador;
 
-import com.inmobiliaria.mundo.Cliente;
+import com.inmobiliaria.mundo.Categoria;
 import com.inmobiliaria.mundo.Inmobiliaria;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author KMILO
  */
-@WebServlet(name = "ControladorCliente", urlPatterns = {"/ControladorCliente"})
-public class ControladorCliente extends HttpServlet {
+@WebServlet(name = "ControladorCategoria", urlPatterns = {"/ControladorCategoria"})
+public class ControladorCategoria extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +40,7 @@ public class ControladorCliente extends HttpServlet {
             HttpSession session = request.getSession(true);            
             
             Inmobiliaria inmobiliaria= (Inmobiliaria) session.getAttribute("inmobiliaria");                           
-            ArrayList<Cliente> clientes = new ArrayList<Cliente>();                       
+            ArrayList<Categoria> categorias = new ArrayList<Categoria>();                       
             
             if(inmobiliaria==null) inmobiliaria = Inmobiliaria.darObjeto();
             
@@ -50,27 +50,22 @@ public class ControladorCliente extends HttpServlet {
             String mensaje = "";
             String url = "";
             
+            //agregar Categoria            
             if (operacion.equals("Agregar"))
-            {
+            {                
             try
             {            
-                //variables de campos de texto:
-                int id=0;
-                int cedula = Integer.parseInt(request.getParameter("txt_cedula"));
-                String nombre = request.getParameter("txt_nombre");
-                String apellidos = request.getParameter("txt_apellidos");
-                String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");
+                //variables de campos de texto:                  
+                String descrip = request.getParameter("txt_descripcion");              
                 
-                inmobiliaria.adicionarCliente(id, cedula, nombre, apellidos, email, telefono);                
-                clientes.add(new Cliente(id, cedula, nombre, apellidos, email, telefono));
+                inmobiliaria.adicionarCategoria(descrip);
+                categorias.add(new Categoria(0,descrip));
 
-                mensaje = inmobiliaria.getMensaje();    
-                url = "AgregarCliente.jsp";
-                               
-                session.setAttribute("mensaje", mensaje);
+                mensaje = inmobiliaria.getMensaje();
+                url = "AgregarCategoria.jsp";
+                
                 session.setAttribute("url", url);
-
+                session.setAttribute("mensaje", mensaje);
                 response.sendRedirect("./Mensajes.jsp");
             }
             catch( Exception e )
@@ -78,87 +73,73 @@ public class ControladorCliente extends HttpServlet {
                out.println(e.getMessage());
             }
         }
-            
-        //buscar clientes             
+        
+        String descripGlobal = (String) session.getAttribute("descripGlobal");
+        //buscar categoria             
         if (operacion.equals("Buscar"))
-        {  
-                int cedula=0;
-                try{
-                    cedula = Integer.parseInt(request.getParameter("txt_cedula"));
-                }
-                catch(Exception e){
-                    cedula =0;
-                }
-                
-            String nombre = request.getParameter("txt_nombre");                                
-           
-            clientes = inmobiliaria.buscarClientes(cedula, nombre);
+        {                  
+            descripGlobal = request.getParameter("txt_descripcion");                                
+            Categoria categoria = null;
+            categoria = inmobiliaria.buscarCategoria(descripGlobal);
             
-            if(clientes != null){
-                session.setAttribute("clientes", clientes); //declarar variable de sesion
-                request.getRequestDispatcher("./MostrarClientes.jsp").forward(request, response);                                  
+            if(categoria!=null){
+                session.setAttribute("descripGlobal", descripGlobal); //declarar variable de sesion
+                session.setAttribute("categoria", categoria); //declarar variable de sesion
+                request.getRequestDispatcher("./MostrarCategorias.jsp").forward(request, response);                                     
             }
             else{
-                mensaje = "El cliente no Existe";
-                url = "AdministrarClientes.jsp";
+                mensaje = "La Categoria no Existe";
+                url = "AdministrarCategoria.jsp";
                 session.setAttribute("url", url);
                 
                 session.setAttribute("mensaje", mensaje);
-                response.sendRedirect("./Mensajes.jsp");
-            }                                                                                      
+                response.sendRedirect("./Mensajes.jsp"); 
+            }                                                         
         }
         
-        //llevar a pagina de modificar un clinte
-        int cedula =0;        
-        if (operacion.equals("Editar"))
-        {            
-            cedula = Integer.parseInt(request.getParameter("val"));           
-            session.setAttribute("cedula", cedula);
-            
-            Cliente cliente = inmobiliaria.buscarCliente(cedula);                      
-            if(cliente!=null){
-                request.setAttribute("cliente", cliente); //declarar variable de sesion
-                request.getRequestDispatcher("ModificarCliente.jsp").forward(request, response);                          
-            }                                            
-        }
-        
-        //modificar un cliente:
+        //modificar una categoria:
         if(operacion.equals("Modificar")){
-            //variables de campos de texto:                              
-                cedula = (int) session.getAttribute("cedula");
+            //variables de campos de texto:                                
+                String descrip = request.getParameter("dpd_descripcion");
                 
-                String nombre = request.getParameter("txt_nombre");
-                String apellidos = request.getParameter("txt_apellidos");
-                String email = request.getParameter("txt_email");
-                String telefono = request.getParameter("txt_telefono");
+                Categoria categoria = inmobiliaria.buscarCategoria(descripGlobal);                
                 
-                inmobiliaria.modificarCliente(cedula, nombre, apellidos, email, telefono);
+                inmobiliaria.modificarCategoria(descripGlobal, descrip);
                 
-                mensaje = "El Cliente fue modificado con éxito";
-                url = "AdministrarClientes.jsp";
+                mensaje = inmobiliaria.getMensaje();
+                url = "AdministrarCategoria.jsp";
                 
-                session.setAttribute("url", url);
+                session.setAttribute("url", url);                
                 session.setAttribute("mensaje", mensaje);
-                
                 response.sendRedirect("./Mensajes.jsp");                    
         }
         
-        //eliminar cliente:
-        if(operacion.equals("Eliminar")){            
-            cedula = Integer.parseInt(request.getParameter("val"));
+        if(operacion.equals("Eliminar")){
             
-            inmobiliaria.eliminarCliente(cedula);    
-            mensaje = "El Cliente fue eliminado con éxito";
-            
-            url = "AdministrarClientes.jsp";
-            
+            inmobiliaria.eliminarCategoria(descripGlobal);
+           
+            mensaje = inmobiliaria.getMensaje();
+            url = "AdministrarCategoria.jsp";
+                
+            session.setAttribute("url", url);                 
             session.setAttribute("mensaje", mensaje);
-            session.setAttribute("url", url);
             
             response.sendRedirect("./Mensajes.jsp");
         }
-            
+        
+        //operacion volver de pagina mostrarDeptos
+        if(operacion.equals("Volver")){
+            response.sendRedirect("./AdministrarCategoria.jsp");                            
         }
+            
+            
+            
+        
+        //---------------------            
+        }
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

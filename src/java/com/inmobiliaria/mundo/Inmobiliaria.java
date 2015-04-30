@@ -5,9 +5,13 @@
  */
 package com.inmobiliaria.mundo;
 
+import com.inmobiliaria.datos.CategoriaDAO;
 import com.inmobiliaria.datos.CiudadDAO;
 import com.inmobiliaria.datos.ClienteDAO;
 import com.inmobiliaria.datos.DepartamentoDAO;
+import com.inmobiliaria.datos.InmuebleDAO;
+import com.inmobiliaria.datos.TransaccionDAO;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -39,6 +43,11 @@ public class Inmobiliaria {
     private ArrayList<Categoria> categorias;
     
     /**
+     * Lista de los transacciones que contienen arriendo o venta de inmueble
+     */
+    private ArrayList<Transaccion> transacciones;
+    
+    /**
      * Lista de los inmuebles que pertenecen a la inmobiliaria
      */
     private ArrayList<Inmueble> inmuebles;
@@ -52,6 +61,15 @@ public class Inmobiliaria {
     //objeto de DepartamentoDAO 
     private DepartamentoDAO departamentoDAO;
     
+    //objeto de categoriaDAO
+    private CategoriaDAO categoriaDAO;
+    
+    //objeto de inmuebleDAO
+    private InmuebleDAO inmuebleDAO;
+    
+    //objeto de clase transaccion
+    private TransaccionDAO transaccionDAO;
+    
     //mensajes que se generan en el manejo de la clase cliente
     String mensaje;
 
@@ -61,9 +79,16 @@ public class Inmobiliaria {
             clienteDAO = new ClienteDAO();
             departamentoDAO = new DepartamentoDAO();
             ciudadDAO = new CiudadDAO();
+            categoriaDAO = new CategoriaDAO();
+            inmuebleDAO = new InmuebleDAO();    
+            transaccionDAO = new TransaccionDAO();
+            
             clientes = clienteDAO.listado();
             ciudades = ciudadDAO.listado();
             departamentos = departamentoDAO.listado();
+            categorias = categoriaDAO.listado();
+            inmuebles = inmuebleDAO.listado();
+            transacciones = transaccionDAO.listado();                                                
 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Inmobiliaria.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +156,16 @@ public class Inmobiliaria {
     public void setDepartamentos(ArrayList<Departamento> departamentos) {
         this.departamentos = departamentos;
     }
+
+    public ArrayList<Transaccion> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(ArrayList<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
+    
+    
 
     //metodo para adicionar un departamento recibiendo como parametro el id y el nombre
     public void adicionarDepartamento(String pNom) throws Exception {
@@ -402,7 +437,7 @@ public class Inmobiliaria {
         if (buscarCategoria(pDesc) == null) {
             int id =0;
             Categoria miCategoria = new Categoria(id, pDesc);
-            //categoriaDAO.agregarCategoria(pDesc);
+            categoriaDAO.agregarCategoria(miCategoria);
             categorias.add(miCategoria);            
             setMensaje("La categoria se adicionó con Exito");            
         }
@@ -427,8 +462,13 @@ public class Inmobiliaria {
         Categoria categoria = buscarCategoria(pDesc);        
         if (categoria != null) {
             try {
-                categoria.setDescripcion(NuevaDesc);              
-                //categoriaDAO.modificarCategoria(pDesc);                
+                Categoria pCat = buscarCategoria(NuevaDesc);
+                if(pCat==null){
+                    categoria.setDescripcion(NuevaDesc);              
+                    categoriaDAO.modificarCategoria(NuevaDesc, pDesc);
+                    setMensaje("La categoria se modificó correctamente"); 
+                }
+                else setMensaje("La categoria ya existe");                                                  
             } catch (Exception e) {
                 //("categoria ya existe");
             }
@@ -443,8 +483,9 @@ public class Inmobiliaria {
         Categoria categoria = buscarCategoria(pDesc);        
         if (categoria != null) {            
             try{
-                //categoriaDAO.eliminarCategoria(categoria);            
+                categoriaDAO.eliminarCategoria(categoria);            
                 categorias.remove(categoria);
+                setMensaje("la categoria se eliminó correctamente");
             }
             catch(Exception e){
                 
@@ -455,41 +496,62 @@ public class Inmobiliaria {
     }
     
     //metodo para adicionar un Inmueble recibiendo como parametro..
-    public void adicionarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pTamano, int pPrecio, String pImagen ) throws Exception {
-        if (buscarInmuebles(pBarrio, pDir, pTipo) == null) {
-            int id =0;
-            Inmueble nInmueble = new Inmueble(id, pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);
-            
-            //inmuebleDAO.agregarInmueble(pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);
-            inmuebles.add(nInmueble);            
-            setMensaje("El inmueble se adicionó con Exito");            
+    public void adicionarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pTamano, int pPrecio, String pImagen, String categoria, String ciudad ){
+        try{
+                if (buscarInmueble(pDir) == null) {            
+                    Inmueble nInmueble = new Inmueble(0, pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen, categoria, ciudad);            
+                    inmuebleDAO.guardarInmueble(nInmueble);
+                    inmuebles.add(nInmueble);            
+                    setMensaje("El inmueble se adicionó con Exito");            
+                }
+                else setMensaje("¡Error! El inmueble con esa dirección ya existe"); 
+        }catch(Exception e){
+            setMensaje(e.getMessage());            
         }
-        else setMensaje("¡Error! El inmueble ya existe");            
+        
     }
     
     //buscar inmueble enviando como parametro barrio, dir, tipo
-    public ArrayList<Inmueble> buscarInmuebles(String pBarrio, String pDir, String pTipo) {
+    public ArrayList<Inmueble> buscarInmueblesXParam(String pBarrio, String pDir, String pTipo) throws Exception{
         ArrayList<Inmueble> misInmuebles = new ArrayList<Inmueble>();
-        Inmueble miInmueble = null;
-        //misInmuebles = inmuebleDAO.buscarInmuebles(pBarrio, pDir, pTipo);
+        //Inmueble miInmueble = null;
+        misInmuebles = inmuebleDAO.buscarInmuebleXParam(pBarrio, pDir, pTipo);
         return misInmuebles;
     }
     
+    //buscar inmueble por direccion:
+    public Inmueble buscarInmueble(String pDir){
+        Inmueble inmueble = null;
+        boolean encontrado = false;
+        for (int i = 0; i < inmuebles.size() && !encontrado; i++) {
+            if (inmuebles.get(i).getDireccion().equals(pDir)) {
+                inmueble = inmuebles.get(i);
+                encontrado = true;
+            }
+        }
+        return inmueble;
+    }
+    
     //metodo para modficar un inmueble enviando como parametro..
-    public void modificarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pTamano, int pPrecio, String pImagen){
-        ArrayList<Inmueble> misInmuebles = buscarInmuebles(pBarrio, pDir, pTipo);
+    public void modificarInmueble(String pBarrio, String pDir, String pTel, String pTipo, String pCategoria, String pTamanio, int pPrecio, String pCiudad, String pImagen, String pDirOriginal){
+        Inmueble miInmueble = buscarInmueble(pDirOriginal);
         
-        if (misInmuebles != null) {
+        if (miInmueble != null) {
             try {
-                   int pId = misInmuebles.get(0).getIdInmueble();
-                    misInmuebles.get(0).setBarrio(pBarrio);
-                    misInmuebles.get(0).setDireccion(pDir);
-                    misInmuebles.get(0).setTelefono(pTel);
-                    misInmuebles.get(0).setTipo(pTipo);
-                    misInmuebles.get(0).setTamanio(pTamano);
-                    misInmuebles.get(0).setPrecio(pPrecio);
-                    misInmuebles.get(0).setImagen(pImagen);                                                       
-                    //inmuebleDAO.modificarInmueble(pId, pBarrio, pDir, pTel, pTipo, pTamano, pPrecio, pImagen);                
+                Inmueble pInm = buscarInmueble(pDir);
+                if(pInm==null){
+                    miInmueble.setBarrio(pBarrio);
+                    miInmueble.setDireccion(pDir);
+                    miInmueble.setTelefono(pTel);
+                    miInmueble.setTipo(pTipo);
+                    miInmueble.setCategoria(pCategoria);
+                    miInmueble.setTamanio(pTamanio);
+                    miInmueble.setPrecio(pPrecio);
+                    miInmueble.setCiudad(pCiudad);
+                    miInmueble.setImagen(pImagen);                                                       
+                    inmuebleDAO.modificarInmueble(pDirOriginal, miInmueble);  
+                    setMensaje("El Inmueble se modificó con Exito");
+                } else setMensaje("¡Error!, El inmueble con esa dirección ya existe");
             } catch (Exception e) {
                 //("inmueble ya existe");
             }
@@ -500,15 +562,13 @@ public class Inmobiliaria {
     }
     
     //metodo eliminar una categoria recibiendo la descripcion
-    public void eliminarInmueble(String pBarrio, String pDir, String pTipo){
-        ArrayList<Inmueble> misInmuebles = buscarInmuebles(pBarrio, pDir, pTipo);
-        Inmueble inmueble = null;
+    public void eliminarInmueble(String pDir){
+        Inmueble miInmueble = buscarInmueble(pDir);        
         
-        if (misInmuebles != null) {            
-            try{                 
-                inmueble = misInmuebles.get(0);                
-                inmuebles.remove(inmueble);
-                //inmuebleDAO.eliminarInmueble(inmueble);            
+        if (miInmueble != null) {            
+            try{                                               
+                inmuebleDAO.eliminarInmueble(miInmueble);            
+                inmuebles.remove(miInmueble);
             }
             catch(Exception e){
                 
@@ -516,6 +576,31 @@ public class Inmobiliaria {
         } else {
             //throw new Exception("El cliente no se encuentra Registrado");
         }
+    }
+    
+    //metodo para eliminar un archivo recibiendo la ruta como parametro
+    public void eliminarArchivo(String ruta){        
+        File archivo = new File(ruta);
+        archivo.delete();                                                                               
+    }
+    
+    //registrar una transaccion para arrendar o vender inmueble:
+    public void registrarTransaccion(int nIdCliente, int nIdInmueble, String nTipoTrans){
+        try{
+            Transaccion nTrans = new Transaccion(nIdInmueble, nIdCliente, nIdInmueble, nTipoTrans);
+            transaccionDAO.agregarTransaccion(nTrans);
+            transacciones.add(nTrans);                                                                           
+        }catch(Exception e){
+            setMensaje(e.getMessage());            
+        }
+    }
+    
+    //buscar inmueble enviando como parametro ciudad
+    public ArrayList<Inmueble> buscarInmueblesXCiudad(String pNombreCiudad) throws Exception{
+        ArrayList<Inmueble> misInmuebles = new ArrayList<Inmueble>();
+        //Inmueble miInmueble = null;
+        misInmuebles = inmuebleDAO.buscarInmuebleXCiudad(pNombreCiudad);
+        return misInmuebles;
     }
     
     

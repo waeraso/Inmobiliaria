@@ -46,6 +46,14 @@ public class Inmueble
      * foto del inmueble
      */
     private String imagen;
+    /**
+     * relacion con la categoria a la que pertenece, (descripcionCategoria)
+     */    
+    private String categoria;
+    /**
+     * relacion con la ciudad a la que pertenece, (nombreCiudad)
+     */    
+    private String ciudad;
     
     /**
     * Constructor de la clase Inmueble
@@ -58,7 +66,7 @@ public class Inmueble
     * @param pPrecio precio del inmueble. precio !="" and precio !=nullC
     * @param pImagen imagen del inmueble. imagen !="" and imagen !=null
     */
-    public Inmueble (int pIdInmueble,String pBarrio,String pDireccion,String pTelefono, String pTipo,String pTamanio,int pPrecio,String pImagen)
+    public Inmueble (int pIdInmueble,String pBarrio,String pDireccion,String pTelefono, String pTipo,String pTamanio,int pPrecio,String pImagen, String pCategoria, String pCiudad)
     {
         idInmueble=pIdInmueble;
         barrio=pBarrio;
@@ -68,8 +76,10 @@ public class Inmueble
         tamanio=pTamanio;
         precio=pPrecio;
         imagen=pImagen;
+        categoria = pCategoria;
+        ciudad = pCiudad;
     }
-        
+            
     ///----------------------------------------------
     /// Metodos
     ///----------------------------------------------
@@ -201,4 +211,22 @@ public class Inmueble
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+    
+    
 }

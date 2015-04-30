@@ -61,14 +61,14 @@ public class CategoriaDAO {
      */
     public ArrayList<Categoria> listado() throws ClassNotFoundException, SQLException {
         ArrayList<Categoria> categorias = new ArrayList<Categoria>();
-        String sql = "SELECT * FROM categoria ORDER BY nombre asc";
+        String sql = "SELECT * FROM categoria;";
         Connection conection = fachada.conectar();
         if (conection != null) {
             Statement instruccion = conection.createStatement();
             ResultSet tabla = instruccion.executeQuery(sql);
             while (tabla.next()) {
                 int idCategoria = Integer.parseInt(tabla.getString("idCategoria"));               
-                String descripcion = tabla.getString("categoria");
+                String descripcion = tabla.getString("descripcion");
                 Categoria categoria = new Categoria(idCategoria, descripcion);
                 categorias.add(categoria);
             }
@@ -111,7 +111,7 @@ public class CategoriaDAO {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public int modificarCiudad(String pDescripcion, String pDesAnterior) throws ClassNotFoundException, SQLException{
+    public int modificarCategoria(String pDescripcion, String pDesAnterior) throws ClassNotFoundException, SQLException{
         int resultado = -1;
         String sql = "UPDATE categoria SET descripcion='"+ pDescripcion+"'"
                 + "WHERE descripcion='"+ pDesAnterior +"'";
@@ -133,9 +133,9 @@ public class CategoriaDAO {
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
-    public int eliminarCiudad(Categoria pCategoria) throws ClassNotFoundException, SQLException{
+    public int eliminarCategoria(Categoria pCategoria) throws ClassNotFoundException, SQLException{
         int resultado = -1;
-        String sql = "DELETE FROM categoria WHERE nombre='"+pCategoria.getDescripcion()+"'";
+        String sql = "DELETE FROM categoria WHERE descripcion='"+pCategoria.getDescripcion()+"'";
         Connection miConexion = fachada.conectar();
         if(miConexion != null)
         {
